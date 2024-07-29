@@ -7,7 +7,7 @@ import '../../App.css';
 const Join = () => {
     const navi = useNavigate();
     const [form, setForm] = useState({
-        id: '',
+        user_id: '',
         password: '',
         name: '',
         phone: '',
@@ -15,7 +15,10 @@ const Join = () => {
         address: '',
         gender: ''
     });
-    const { id, password, name, phone, email, address, gender } = form;
+    const { user_id, password, name, phone, email, address, gender } = form;
+
+    const [idCheck, setIdCheck] = useState('');
+    const [idErr, setIdErr] = useState(false);
 
     const onChange = (e) => {
         setForm({
@@ -24,10 +27,34 @@ const Join = () => {
         });
     };
 
+    const idDuplicateCheck = async() => {
+        try {
+            const response = await axios.post('/user/id-check', {user_id})
+            console.log(response)
+            if(response.data.exists){
+                setIdCheck('ID가 중복됩니다.');
+                setIdErr(true);
+                setForm({
+                    ...form,
+                    user_id: ''
+                });
+            }else if(user_id === '') {
+                setIdCheck('ID를 입력해주세요..');
+                setIdErr(true);
+            } else {
+                setIdCheck('사용가능한 ID입니다.');
+                setIdErr(false);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        
+    }
+
     const handleJoin = async () => {
         try {
             const response = await axios.post('/user/register', {
-                id, password, name, phone, email, address, gender
+                user_id, password, name, phone, email, address, gender
             });
             if (response.status === 200) {
                 alert("등록 성공");
@@ -42,44 +69,47 @@ const Join = () => {
 
     return (
         <div className="register-container">
-            <Card className="card">
-                <Card.Header className="card-header mb-3">
-                    <h3 className='text-center'>Register</h3>
-                </Card.Header>
-                <Card.Body>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>ID</InputGroup.Text>
-                        <Form.Control value={id} name='id' onChange={onChange} />
-                    </InputGroup>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Password</InputGroup.Text>
-                        <Form.Control value={password} name='password' type="password" onChange={onChange} />
-                    </InputGroup>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Name</InputGroup.Text>
-                        <Form.Control value={name} name='name' onChange={onChange} />
-                    </InputGroup>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Phone</InputGroup.Text>
-                        <Form.Control value={phone} name='phone' onChange={onChange} />
-                    </InputGroup>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Email</InputGroup.Text>
-                        <Form.Control value={email} name='email' onChange={onChange} />
-                    </InputGroup>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Address</InputGroup.Text>
-                        <Form.Control value={address} name='address' onChange={onChange} />
-                    </InputGroup>
-                    <InputGroup className='mb-2'>
-                        <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Gender</InputGroup.Text>
-                        <Form.Control value={gender} name='gender' onChange={onChange} />
-                    </InputGroup>
-                    <div className="text-center mt-4">
-                        <Button  onClick={handleJoin}>등록</Button>
-                    </div>
-                </Card.Body>
-            </Card>
+            <h1 className='text-center mb-4'>회원가입</h1>
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>ID</InputGroup.Text>
+                <Form.Control value={user_id} name='user_id' onChange={onChange} />
+                <Button onClick={idDuplicateCheck}>중복확인</Button>
+            </InputGroup>
+            {idCheck && (
+                <h6 style={{textAlign: 'left', color: idErr ? 'red' : 'green'}} className='mb-3'>{idCheck}</h6>
+            )}
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Password</InputGroup.Text>
+                <Form.Control value={password} name='password' type="password" onChange={onChange} />
+            </InputGroup>
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Name</InputGroup.Text>
+                <Form.Control value={name} name='name' onChange={onChange} />
+            </InputGroup>
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Phone</InputGroup.Text>
+                <Form.Control value={phone} name='phone' onChange={onChange} />
+            </InputGroup>
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Email</InputGroup.Text>
+                <Form.Control value={email} name='email' onChange={onChange} />
+            </InputGroup>
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Address</InputGroup.Text>
+                <Form.Control value={address} name='address' onChange={onChange} />
+            </InputGroup>
+            <InputGroup className='user-input-group-custom mb-2'>
+                <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Gender</InputGroup.Text>
+                <Form.Select value={gender} name="gender" onChange={onChange}>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
+                </Form.Select>
+
+                
+            </InputGroup>
+            <div className="text-center mt-4">
+                <Button size='lg'  onClick={handleJoin}>등록</Button>
+            </div>
         </div>
     );
 };

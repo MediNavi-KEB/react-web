@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import RouteZip from './components/basis/RouteZip';
 import Footer from './components/basis/Footer';
+import Header from './components/basis/Header';
 
 function App() {
   return (
@@ -14,13 +15,14 @@ function App() {
 
 const Main = () => {
   const location = useLocation();
-  const hideFooterRoutes = ['/', '/login', '/join'];
-  const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
+  const hideRoutes = ['/', '/login', '/join'];
+  const shouldHide = hideRoutes.includes(location.pathname);
 
   return (
     <div className='App'>
+      {!shouldHide && <Header />}
       <RouteZip />
-      {!shouldHideFooter && <Footer />}
+      {!shouldHide && <Footer />}
     </div>
   );
 };

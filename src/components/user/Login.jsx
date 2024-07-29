@@ -7,11 +7,11 @@ const Login = () => {
     const navi = useNavigate(); 
 
     const [form, setForm] = useState({
-        id : '',
+        user_id : '',
         password : ''
     })
 
-    const {id, password} = form;
+    const {user_id, password} = form;
 
     const onChange = (e) => {
         setForm({
@@ -22,8 +22,8 @@ const Login = () => {
 
     const handleLogin = async() => {
         try {
-            const response = await axios.post('user/login', {
-                id, password
+            const response = await axios.post('/user/login', {
+                user_id, password
             },{
                 headers: {
                     'Content-Type' : 'application/json'
@@ -42,26 +42,21 @@ const Login = () => {
     }
     return (
         <div className="login-container">
-            <Card className="card">
-                <Card.Header className="card-header">
-                    <h3 className='centered-text'>WELCOME</h3>
-                </Card.Header>
-                <Card.Body>
-                    <InputGroup className='my-4'>
-                        <InputGroup.Text style={{ width: '70px' }} className='justify-content-center'>ID</InputGroup.Text>
-                        <Form.Control value={id} name='id' onChange={onChange}/>
-                    </InputGroup>
-                    <InputGroup className='mb-4'>
-                        <InputGroup.Text style={{ width: '70px' }} className='justify-content-center'>PW</InputGroup.Text>
-                        <Form.Control value={password} name='password' type="password" onChange={onChange}/>
-                    </InputGroup>
-                    <div className='text-center mt-3'>
-                    <Button className="me-3" onClick={handleLogin}>Login</Button>
-                    <Button variant="secondary" onClick={() => navi('/join')}>Sign Up</Button>
-                    </div>
-                    
-                </Card.Body>
-            </Card>
+            <h1>WELCOME</h1>
+            <h1 style={{color :'#368AFF'}}>MediNavi</h1>
+            <InputGroup className='user-input-group-custom my-4'>
+                <InputGroup.Text style={{ width: '70px' }} className='justify-content-center'>ID</InputGroup.Text>
+                <Form.Control value={user_id} name='user_id' onChange={onChange}/>
+            </InputGroup>
+            <InputGroup className='user-input-group-custom mb-4'>
+                <InputGroup.Text style={{ width: '70px'}} className='bold-text justify-content-center'>PW</InputGroup.Text>
+                <Form.Control value={password} name='password' type="password" onChange={onChange}/>
+            </InputGroup>
+            <div className='text-center mt-3'>
+            <Button  style={{ backgroundColor: '#368AFF', borderColor: '#368AFF'}}variant="info" size ='lg' className=" me-4" onClick={handleLogin}>Login</Button>
+            <Button variant="secondary" size ='lg' onClick={() => navi('/join')}>Sign Up</Button>
+            </div>
+    
         </div>
     )
 }
