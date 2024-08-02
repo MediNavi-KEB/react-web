@@ -32,6 +32,7 @@ const Login = () => {
 
             if (response.status === 200){
                 alert("로그인 성공!");
+                localStorage.setItem('user_id', user_id)
                 navi('/home')
             }
         } catch(error){
@@ -40,6 +41,14 @@ const Login = () => {
             }
         }
     }
+
+    const KeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleLogin();
+        }
+    };
+
     return (
         <div className="login-container">
             <h1>WELCOME</h1>
@@ -50,13 +59,12 @@ const Login = () => {
             </InputGroup>
             <InputGroup className='user-input-group-custom mb-4'>
                 <InputGroup.Text style={{ width: '70px'}} className='bold-text justify-content-center'>PW</InputGroup.Text>
-                <Form.Control value={password} name='password' type="password" onChange={onChange}/>
+                <Form.Control value={password} name='password' type="password" onChange={onChange} onKeyDown={KeyDown}/>
             </InputGroup>
             <div className='text-center mt-3'>
             <Button  style={{ backgroundColor: '#368AFF', borderColor: '#368AFF'}}variant="info" size ='lg' className=" me-4" onClick={handleLogin}>Login</Button>
             <Button variant="secondary" size ='lg' onClick={() => navi('/join')}>Sign Up</Button>
             </div>
-    
         </div>
     )
 }

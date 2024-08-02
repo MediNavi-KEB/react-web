@@ -9,6 +9,9 @@ import Login from '../user/Login';
 import Join from '../user/Join';
 import { AnimatePresence, motion } from 'framer-motion';
 import EntryPage from '../EntryPage';
+import Account from '../user/Account';
+import Faq from '../user/Faq';
+import About from '../user/About';
 
 const RouteZip = () => {
   const location = useLocation();
@@ -22,6 +25,9 @@ const RouteZip = () => {
           <Route path='/home' element={<PageWrapper><Home /></PageWrapper>} />
           <Route path='/local' element={<PageWrapper><Locals /></PageWrapper>} />
           <Route path='/mypage' element={<PageWrapper><MyPage /></PageWrapper>} />
+          <Route path='/mypage/account' element={<PageWrapper><Account /></PageWrapper>} />
+          <Route path='/mypage/faq' element={<PageWrapper><Faq /></PageWrapper>} />
+          <Route path='/mypage/about' element={<PageWrapper><About /></PageWrapper>} />
           <Route path='/calendar' element={<PageWrapper><Calendar /></PageWrapper>} />
           <Route path='/chatbot' element={<PageWrapper><Chatbot /></PageWrapper>} />
         </Routes>

@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [previousPath, setPreviousPath] = useState(null);
+
+  useEffect(() => {
+    // 페이지 이동 시마다 현재 경로를 이전 경로로 설정
+    return () => {
+      setPreviousPath(location.pathname);
+    };
+  }, [location]);
+
+  const handleBack = () => {
+    if (previousPath !== '/login') {
+      navigate(-1);
+    }
+  };
 
   return (
     <div className="header">
-      <IoArrowBackCircleOutline className='icon-header' onClick={() => navigate(-1)} />
+      <IoArrowBackCircleOutline className='icon-header' onClick={handleBack} />
     </div>
   );
 }

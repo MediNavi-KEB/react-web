@@ -101,8 +101,8 @@ const Join = () => {
             <InputGroup className='user-input-group-custom mb-2'>
                 <InputGroup.Text style={{ width: '90px' }} className='justify-content-center'>Gender</InputGroup.Text>
                 <Form.Select value={gender} name="gender" onChange={onChange}>
-                <option value="male">남성</option>
-                <option value="female">여성</option>
+                <option value="남성">남성</option>
+                <option value="여성">여성</option>
                 </Form.Select>
 
                 

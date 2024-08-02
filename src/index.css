@@ -18,3 +18,8 @@ code {
   font-weight: 700;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'GmarketSans';
+  src: url("/src/fontfile/GmarketSansOTF/GmarketSansMedium.otf") format('truetype');
+}

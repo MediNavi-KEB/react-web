@@ -15,7 +15,7 @@ function App() {
 
 const Main = () => {
   const location = useLocation();
-  const hideRoutes = ['/', '/login', '/join'];
+  const hideRoutes = ['/', '/login', '/join', '/chatbot'];
   const shouldHide = hideRoutes.includes(location.pathname);
 
   return (
