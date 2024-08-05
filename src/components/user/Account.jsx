@@ -60,7 +60,7 @@ const Account = () => {
     return (
         <div>
             <div className='title'>Setting</div>
-            <h2 className='my-5 mx-5' style={{color:'#5a5a59'}}>Account</h2>
+            <h2 className='my-3 mx-5' style={{color:'#5a5a59'}}>Account</h2>
             <div className='account-container'>
                 <div className='account-list'>
                     <label className='account-label-spacing'>Name*</label>

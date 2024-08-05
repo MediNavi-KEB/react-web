@@ -6,7 +6,7 @@ const About = () => {
     <div className="about-container">
       <div className='title'>About</div>
       <div className="about-image-container">
-        <img src="https://cdn-icons-png.flaticon.com/128/6134/6134346.png" alt="Sample" className="about-image" />
+        <img className="about-image" src="https://cdn-icons-png.flaticon.com/128/6134/6134346.png" alt="Sample" />
         <p className="about-description">
           MediNavi는 의료 정보를 제공하고 상담을 도와주는 AI 챗봇입니다. 
           <br/>사용자가 필요로 하는 정보를 쉽게 찾아볼 수 있습니다.

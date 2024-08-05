@@ -1,89 +1,124 @@
 .map_wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 600px;
-    height: 100vh;
-  }
-  
-  #menu_wrap {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 300px; /* 메뉴 너비 조정 */
-    max-height: 500px; /* 최대 높이 설정 */
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    padding: 10px;
-    overflow-y: auto; /* 내용이 넘치면 스크롤 */
-    z-index: 10;
-  }
-  
-  #menu_wrap .option {
-    text-align: center;
-  }
-  
-  #menu_wrap .option form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  #menu_wrap .option input[type="text"] {
-    margin-right: 10px;
-  }
-  
-  #placesList {
-    list-style: none;
-    padding: 0;
-  }
-  
-  #placesList .item {
-    display: flex; /* 플렉스 레이아웃 적용 */
-    justify-content: space-between; /* 공간을 양쪽으로 분배 */
-    align-items: center; /* 세로 중앙 정렬 */
-    border-bottom: 1px solid #888;
-    padding: 10px 0;
-  }
-  
-  #placesList .info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
-  }
-  
-  #placesList .info .jibun {
-    color: #888;
-  }
-  
-  #placesList .info .tel {
-    color: #009900;
-  }
-  
-  #pagination {
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  #pagination a {
-    margin: 0 5px;
-    color: #777;
-    text-decoration: none;
-  }
-  
-  #pagination .on {
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .favorite {
-    cursor: pointer;
-    color: #888;
-  }
-  
-  .favorite.active {
-    color: gold;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#menu_wrap {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 60px 20px 20px; /* Adjust padding for top space */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  position: fixed;
+  top: 20px;
+  left: 430px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+#placesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: transform 0.2s;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.info h5 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.jibun {
+  color: #777;
+  font-size: 0.9em;
+}
+
+.tel {
+  color: #009900;
+  font-weight: bold;
+}
+
+.distance, .rating {
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.favorite {
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: color 0.2s;
+}
+
+.favorite.active {
+  color: gold;
+}
+
+.favorite:hover {
+  color: #ffa500;
+}
+
+#local-pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#local-pagination a {
+  margin: 0 5px;
+  color: #777;
+  text-decoration: none;
+}
+
+#local-pagination .on {
+  font-weight: bold;
+  color: #000;
+}
+
+.local-menu-icon {
+  width: 16px; /* 아이콘 너비 */
+  height: 16px; /* 아이콘 높이 */
+  margin-right: 5px; /* 텍스트와의 간격 */
+  vertical-align: middle; /* 텍스트 중간에 정렬 */
+}
