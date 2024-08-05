@@ -1,0 +1,213 @@
+.chatbot-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 600px;
+    margin: 0 auto;
+    /* border: 1px solid #ccc; */
+    box-shadow: 0 0 10px rgbba(0, 0, 0, 0.1);
+  }
+  
+  .chat-footer {
+    padding: 10px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+  }
+  
+  .chat-current-time {
+    text-align: center;
+    font-size: 10px;
+    color: #007bff;
+    padding: 3px 0;
+    background-color: #ffffff;
+    position: absolute;
+    width: 100%;
+    top: 1px;
+  }
+  
+  .chat-header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* 수평 중앙 정렬 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+  }
+  
+  .chat-header-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .chat-header-icon {
+    width: 25px;
+    height: 25px;
+    background-image: url('https://cdn-icons-png.flaticon.com/128/6134/6134346.png');
+    background-size: cover;
+    margin-right: 10px;
+  }
+  
+  .chat-header-name {
+    font-weight: bold;
+  }
+  
+  .chat-header-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .chat-header-refresh-icon {
+    position: fixed;
+    top: 10px; /* 위에서 10px 떨어진 위치 */
+    transform: translateX(10px); 
+    font-size: 50px;
+    color: rgb(54, 138, 255);
+    cursor: pointer;
+  }
+  
+  @media (min-width: 400px) {
+    .chat-header-refresh-icon {
+      right: calc(50% - 180px); 
+    }
+  }
+  
+  .chat-header-status {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #72777a;
+  }
+  
+  .chat-status-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: green;
+    border-radius: 50%;
+    margin-left: 5px;
+  }
+  
+  .chat-body {
+    padding-top: 10px;
+    flex: 1;
+    padding: 10px;
+    position: relative;
+    overflow-y: auto;
+    background-color: white;
+    overflow-x : hidden;
+    overflow-y : auto;
+  }
+  
+  .message {
+    display: flex;
+    margin: 10px 0;
+    align-items: center;
+  }
+  
+  .user-message {
+    justify-content: flex-end;
+  }
+  
+  .bot-message {
+    justify-content: flex-start;
+  }
+  
+  .message-bubble {
+    max-width: 60%;
+    padding: 8px;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+  }
+  
+  .user-message .message-bubble {
+    background-color: #f2f8ff;
+    color: #006be5;
+    border-bottom-right-radius: 0;
+  }
+  
+  .bot-message .message-bubble {
+    background-color: #f2f4f5;
+    border-bottom-left-radius: 0;
+  }
+  
+  .bot-icon {
+    width: 30px;
+    height: 30px;
+    background-image: url('https://cdn-icons-png.flaticon.com/128/6134/6134346.png');
+    background-size: cover;
+    margin-right: 10px;
+  }
+  
+  .chat-footer {
+    display: flex;
+    padding: 5px;
+  }
+  
+  .chat-footer input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    margin-right: 5px;
+    margin-left: 20px;
+  }
+  
+  .chat-footer button {
+    padding: 15px;
+    border: none;
+    background-color: #303437;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+  
+  .chat-footer button:hover {
+    background-color: #ffffff;
+  }
+  
+  .options {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  
+  .option-message {
+    background-color: #007bff;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+  }
+  
+  .options button {
+    background-color: #ffffff;
+    border: 1px solid #007bff;
+    color: #007bff;
+    border-radius: 20px;
+    padding: 10px 8px;
+    margin: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .options button hover {
+    background-color: #e1e1e1;
+  }
+  
+  .chat-footer button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px; /* 버튼 안쪽 여백 추가 */
+    border-radius: 50%; /* 둥근 테두리 */
+    transition: background-color 0.3s ease;
+  }
+  
+  .chat-footer button img {
+    width: 36px;
+    height: 36px;
+  }
