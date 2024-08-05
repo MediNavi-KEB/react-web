@@ -4,6 +4,7 @@ import Header from '../basis/Header';
 import { Col, Row } from 'react-bootstrap';
 import { IoReloadCircleOutline } from "react-icons/io5";
 import axios from 'axios';
+import './Chatbot.css';
 
 const Chatbot = () => {
     const navigate = useNavigate();
@@ -146,24 +147,24 @@ const Chatbot = () => {
                         <Header />
                     </Col>
                     <Col className='my-3'>
-                        <div className="header-info">
-                            <div className="header-title">
-                                <div className="header-icon"></div>
-                                <span className="header-name">MediNavi</span>
+                        <div className="chat-header-info">
+                            <div className="chat-header-title">
+                                <div className="chat-header-icon"></div>
+                                <span className="chat-header-name">MediNavi</span>
                             </div>
-                            <div className="header-status">
-                                <div className="status-indicator"></div>
+                            <div className="chat-header-status">
+                                <div className="chat-status-indicator"></div>
                                 <span>Always active</span>
                             </div>
                         </div>
                     </Col>
                     <Col className='my-3 ml-auto text-right' onClick={selectService}>
-                        <IoReloadCircleOutline className='header-refresh-icon text-right' />
+                        <IoReloadCircleOutline className='chat-header-refresh-icon text-right' />
                     </Col>
                 </Row>
             </div>
             <div className="chat-body" ref={chatBodyRef}>
-                <div className="current-time">{currentTime}</div>
+                <div className="chat-current-time">{currentTime}</div>
                 {messages.map((message, index) => (
                     <div key={index} className={`message ${message.sender}-message`}>
                         {message.sender === 'bot' && <div className="bot-icon"></div>}
