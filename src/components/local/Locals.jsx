@@ -143,7 +143,7 @@ const Locals = () => {
     };
 
     return (
-        <div className="map_wrap">
+        <div className="local-map_wrap">
             <div
                 id="map"
                 style={{
@@ -156,7 +156,7 @@ const Locals = () => {
 
             <div className="local-menu_wrap">
                 <Form className="local-menu-option" onSubmit={handleSubmit}>
-                    <InputGroup className="input-group-custom">
+                    <InputGroup className="lox=cal-input-group-custom">
                         <Form.Control name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} />
                         <Button type="submit">검색</Button>
                     </InputGroup>

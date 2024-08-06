@@ -6,13 +6,13 @@ const LocalList = () => {
     const location = useLocation();
     const { places, currentPosition } = location.state || { places: [], currentPosition: null };
     const [sortedPlaces, setSortedPlaces] = useState([]);
-    const [sortOption, setSortOption] = useState('distance');
+    const [sortOption, setSortOption] = useState('locallist-distance');
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
-        if (sortOption === 'distance') {
+        if (sortOption === 'locallist-distance') {
         setSortedPlaces([...places].sort((a, b) => a.distance - b.distance));
-        } else if (sortOption === 'recommended') {
+        } else if (sortOption === 'locallist-recommended') {
         setSortedPlaces([...places].sort((a, b) => a.place_name.localeCompare(b.place_name, 'ko-KR')));
         }
     }, [sortOption, places]);
@@ -60,37 +60,37 @@ const LocalList = () => {
     }, [currentPosition, places]);
 
     return (
-        <div className="map_wrap" style={{ background: '#fff', minHeight: '100vh' }}>
-        <div id="menu_wrap" className="bg_white">
-            <div className="option">
-            <button onClick={() => handleSortChange('distance')}>
-                <img src="https://cdn-icons-png.flaticon.com/128/8052/8052172.png" className="local-menu-icon" />
+        <div className="locallist-map_wrap" style={{ background: '#fff', minHeight: '100vh' }}>
+        <div id="locallist-menu_wrap" className="locallist-bg_white">
+            <div className="locallist-option">
+            <button onClick={() => handleSortChange('locallist-distance')}>
+                <img src="https://cdn-icons-png.flaticon.com/128/8052/8052172.png" className="locallist-menu-icon" />
                 거리순
             </button>
-            <button onClick={() => handleSortChange('recommended')}>
-                <img src="https://cdn-icons-png.flaticon.com/128/3820/3820147.png" className="local-menu-icon" />
+            <button onClick={() => handleSortChange('locallist-recommended')}>
+                <img src="https://cdn-icons-png.flaticon.com/128/3820/3820147.png" className="locallist-menu-icon" />
                 가나다순
             </button>
             </div>
             <hr />
-            <ul id="placesList">
+            <ul id="locallist-placesList">
             {sortedPlaces.map((place, index) => (
-                <li key={index} className="item">
-                <div className="info">
+                <li key={index} className="locallist-item">
+                <div className="locallist-info">
                     <h5>{place.place_name}</h5>
                     {place.road_address_name ? (
                     <>
                         <span>{place.road_address_name}</span>
-                        <span className="jibun gray">{place.address_name}</span>
+                        <span className="locallist-jibun gray">{place.address_name}</span>
                     </>
                     ) : (
                     <span>{place.address_name}</span>
                     )}
-                    <span className="tel">{place.phone}</span>
-                    <span className="distance">거리: {place.distance.toFixed(2)} km</span>
+                    <span className="locallist-tel">{place.phone}</span>
+                    <span className="locallist-distance">거리: {place.distance.toFixed(2)} km</span>
                 </div>
                 <span
-                    className={`favorite ${favorites.includes(place.id) ? 'active' : ''}`}
+                    className={`locallist-favorite ${favorites.includes(place.id) ? 'active' : ''}`}
                     onClick={() => toggleFavorite(place.id)}
                 >
                     ★
