@@ -9,7 +9,7 @@
 }
 
 .title {
-  top: 0;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   position: fixed;
@@ -367,6 +367,7 @@ html, body {
 }
 
 /* mypage css */
+
 .mypage-img-container{
   text-align: center;
   margin-top: 100px;
@@ -454,9 +455,14 @@ html, body {
 }
 
 /* account css */
+.account-subtitle {
+  margin-top: 80px;
+  margin-left: 50px;
+  margin-bottom: 20px;
+}
 
 .account-container {
-  margin-top: 70px;
+  margin-top: 30px;
 }
 
 .account-label-spacing {
@@ -504,6 +510,23 @@ html, body {
 }
 
 /* Local.css */
+.local-selected-place-info {
+  z-index: 10;
+  position: absolute;
+  top: 15%;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 15px;
+  border-color: #292826;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  /* style={{ padding: '10px', backgroundColor: 'white', borderRadius: '10px', position: 'absolute', bottom: '20px', left: '20px', zIndex: 10 }}
+  padding: 10px;
+  z-index: 1;
+  font-size: 12px;
+  height: 60px;
+  width: 200px;
+  border-radius: 15px; */
+}
 
 .local-map_wrap {
   position: relative;
@@ -511,7 +534,7 @@ html, body {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 430px;
   height: 100vh;
 }
 
@@ -521,7 +544,7 @@ html, body {
   align-items: center;
   height: 100vh;
   background-color: #fff;
-  padding: 20px;
+  /* padding: 20px; */
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -569,10 +592,167 @@ html, body {
 }
 
 .local-list-button {
-  position: fixed;
-  bottom: 10%;
-  right: 2rem;
+  position: absolute;
+  z-index: 10;
+  bottom: 13%;
+  right: 35%;
+  background-color: #ffffff;
+  color: #2c2c2c;
+  border-color:#7a7a7a;
+  border-style: double;
+  border-radius: 20px;
+  height: 40px;
+  width: 110px;
 }
+
+.local-custom-modal .modal-dialog {
+  max-width: 40%; 
+  max-height: 80vh; 
+}
+
+.local-place-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.local-place-details {
+  flex-grow: 1;
+}
+
+/* LocalList.css */
+
+.locallist-map_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  /* padding: 20px; */
+  box-sizing: border-box;
+  overflow: hidden;
+  min-height: 100vh;
+  margin-top: 30px;
+}
+
+.locallist-header {
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px; 
+}
+
+#locallist-menu_wrap {
+  width: 100%;
+  max-width: 430px;
+  padding: 5px 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 50px); /* Adjusted for header height */
+  display: flex;
+  flex-direction: column;
+}
+
+.locallist-option {
+  display: flex;
+  width: 50%;
+  margin-left:auto;
+  font-size: 12px;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  padding: 10px;
+  /* box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2); */
+  /* border: 2px solid;
+  border-color: #368affad; */
+}
+
+#locallist-placesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.locallist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: transform 0.2s;
+}
+
+.locallist-item:hover {
+  transform: translateY(-5px);
+}
+
+.locallist-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.locallist-info h5 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.locallist-jibun {
+  color: #777;
+  font-size: 0.9em;
+}
+
+.locallist-tel {
+  color: #2c88ff;
+  font-weight: bold;
+}
+
+.locallist-distance, .rating {
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.locallist-favorite {
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: color 0.2s;
+}
+
+.locallist-favorite.active {
+  color: gold;
+}
+
+.locallist-favorite:hover {
+  color: #ffa500;
+}
+
+#locallist-pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#locallist-pagination a {
+  margin: 0 5px;
+  color: #777;
+  text-decoration: none;
+}
+
+#locallist-pagination .on {
+  font-weight: bold;
+  color: #000;
+}
+
+.locallist-menu-icon {
+  width: 16px; /* 아이콘 너비 */
+  height: 16px; /* 아이콘 높이 */
+  margin-right: 5px; /* 텍스트와의 간격 */
+  vertical-align: middle; /* 텍스트 중간에 정렬 */
+}
+
 
 /* FAQ.css */
 .faq-container {

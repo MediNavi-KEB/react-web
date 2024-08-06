@@ -12,31 +12,21 @@ const Chatbot = () => {
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
     const [isSending, setIsSending] = useState(false);
-    const [currentTime, setCurrentTime] = useState('');
     const [chatType, setChatType] = useState('');
     const [selectedDisease, setSelectedDisease] = useState(null);
     const [departments, setDepartments] = useState([]);
     const chatBodyRef = useRef(null);
 
-    const updateTime = () => {
-        const now = new Date();
-        let hours = now.getHours();
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const day = days[now.getDay()];
-        const minutes = now.getMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        const minutesStr = minutes < 10 ? '0' + minutes : minutes;
-        const currentTime = `${day} ${hours}:${minutesStr} ${ampm}`;
-        setCurrentTime(currentTime);
-    };
-
-    useEffect(() => {
-        updateTime();
-        const timer = setInterval(updateTime, 1000);
-        return () => clearInterval(timer);
-    }, []);
+    const now = new Date();
+    let hours = now.getHours();
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const day = days[now.getDay()];
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    const currentTime = `${day} ${hours}:${minutesStr} ${ampm}`;
 
     useEffect(() => {
         setMessages([{ sender: 'bot', text: '안녕하세요, 상담 종류를 선택해주세요.', options: ['질병 상담', '기타 문의'] }]);

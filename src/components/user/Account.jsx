@@ -60,29 +60,29 @@ const Account = () => {
     return (
         <div>
             <div className='title'>Setting</div>
-            <h2 className='my-3 mx-5' style={{color:'#5a5a59'}}>Account</h2>
+            <h2 className='account-subtitle' style={{color:'#5a5a59'}}>Account</h2>
             <div className='account-container'>
                 <div className='account-list'>
                     <label className='account-label-spacing'>Name*</label>
-                    <input className='account-input' value={name} name="name" size={25} onChange={onChange}></input>
+                    <input className='account-input' value={name} name="name" size={40} onChange={onChange}></input>
                 </div>
                 <hr className='account-section-divider'></hr>
                 
                 <div className='account-list'>
                     <label className='account-label-spacing'>Email*</label>
-                    <input className='account-input' value={email} name="email" size={25} onChange={onChange}></input>
+                    <input className='account-input' value={email} name="email" size={40} onChange={onChange}></input>
                 </div>
                 <hr className='account-section-divider'></hr>
                 
                 <div className='account-list'>
                     <label className='account-label-spacing'>Phone*</label>
-                    <input className='account-input' value={phone} name="phone" size={25} onChange={onChange}></input>
+                    <input className='account-input' value={phone} name="phone" size={40} onChange={onChange}></input>
                 </div>
                 <hr className='account-section-divider'></hr>
                 
                 <div className='account-list'>
                     <label className='account-label-spacing'>Address*</label>
-                    <input className='account-input' value={address} name="address" size={25} onChange={onChange}></input>
+                    <input className='account-input' value={address} name="address" size={40} onChange={onChange}></input>
                 </div>
                 <hr className='account-section-divider'></hr>
                 
@@ -97,7 +97,7 @@ const Account = () => {
                 
                 <div className='account-list'>
                     <label className='account-label-spacing'>Password**</label>
-                    <input value={password} name="password" className='account-input' size={25} onChange={onChange}></input>
+                    <input value={password} name="password" className='account-input' size={40} onChange={onChange}></input>
                 </div>
                 <hr className='account-section-divider'></hr>
             </div>

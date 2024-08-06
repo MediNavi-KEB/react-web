@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, Form, InputGroup } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../App.css';
@@ -57,7 +57,6 @@ const Join = () => {
                 user_id, password, name, phone, email, address, gender
             });
             if (response.status === 200) {
-                alert("등록 성공");
                 navi('/login');
             }
         }catch(error){

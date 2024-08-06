@@ -1,4 +1,4 @@
-import { Button, Card, Form, InputGroup } from 'react-bootstrap'
+import { Button, Form, InputGroup } from 'react-bootstrap'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -31,7 +31,6 @@ const Login = () => {
             });
 
             if (response.status === 200){
-                alert("로그인 성공!");
                 localStorage.setItem('user_id', user_id)
                 navi('/home')
             }
