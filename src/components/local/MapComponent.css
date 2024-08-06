@@ -1,4 +1,4 @@
-.map_wrap {
+.locallist-map_wrap {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-#menu_wrap {
+#locallist-menu_wrap {
   width: 100%;
   max-width: 600px;
   background-color: rgba(255, 255, 255, 0.95);
@@ -22,7 +22,7 @@
   flex-direction: column;
 }
 
-.option {
+.locallist-option {
   position: fixed;
   top: 20px;
   left: 430px;
@@ -36,7 +36,7 @@
   z-index: 100;
 }
 
-#placesList {
+#locallist-placesList {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -44,7 +44,7 @@
   overflow-y: auto;
 }
 
-.item {
+.locallist-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,67 +56,67 @@
   transition: transform 0.2s;
 }
 
-.item:hover {
+.locallist-item:hover {
   transform: translateY(-5px);
 }
 
-.info {
+.locallist-info {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.info h5 {
+.locallist-info h5 {
   margin: 0;
   font-size: 1.2em;
 }
 
-.jibun {
+.locallist-jibun {
   color: #777;
   font-size: 0.9em;
 }
 
-.tel {
+.locallist-tel {
   color: #009900;
   font-weight: bold;
 }
 
-.distance, .rating {
+.locallist-distance, .rating {
   font-size: 0.9em;
   margin-top: 5px;
 }
 
-.favorite {
+.locallist-favorite {
   cursor: pointer;
   font-size: 1.5em;
   transition: color 0.2s;
 }
 
-.favorite.active {
+.locallist-favorite.active.active {
   color: gold;
 }
 
-.favorite:hover {
+.locallist-favorite:hover {
   color: #ffa500;
 }
 
-#local-pagination {
+#locallist-pagination {
   text-align: center;
   margin-top: 20px;
 }
 
-#local-pagination a {
+#locallist-pagination a {
   margin: 0 5px;
   color: #777;
   text-decoration: none;
 }
 
-#local-pagination .on {
+#locallist-pagination .on {
   font-weight: bold;
   color: #000;
 }
 
-.local-menu-icon {
+.locallist-menu-icon {
   width: 16px; /* 아이콘 너비 */
   height: 16px; /* 아이콘 높이 */
   margin-right: 5px; /* 텍스트와의 간격 */
