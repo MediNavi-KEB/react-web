@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BsList } from "react-icons/bs";
 import axios from 'axios';
@@ -71,7 +71,6 @@ const Locals = () => {
 
                 // 장소 검색 객체 생성
                 const ps = new kakao.maps.services.Places();
-                const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
                 // 키워드로 장소 검색
                 const searchPlaces = () => {
@@ -164,25 +163,25 @@ const Locals = () => {
     const handleCloseModal = () => {
         setShowModal(false);
         if (selectedOverlay) {
-            selectedOverlay.setMap(null); // 선택된 오버레이 제거
-            setSelectedOverlay(null); // 상태 초기화
+            selectedOverlay.setMap(null);
+            setSelectedOverlay(null); 
         }
     };
 
     const toggleFavorite = async (place) => {
-        const isFavorite = favorites.includes(place.place_name); // ensure this matches the data structure
+        const isFavorite = favorites.includes(place.place_name); 
         try {
             if (isFavorite) {
                 await axios.delete(`/favorite/delete/${userId}/${encodeURIComponent(place.place_name)}`);
-                setFavorites(favorites.filter(fav => fav !== place.place_name)); // ensure this matches the data structure
+                setFavorites(favorites.filter(fav => fav !== place.place_name)); 
             } else {
                 await axios.post('/favorite/create', {
                     user_id: userId,
-                    hospital_name: place.place_name, // ensure this matches the data structure
+                    hospital_name: place.place_name, 
                     hospital_address: place.road_address_name || place.address_name,
                     hospital_phone: place.phone,
                 });
-                setFavorites([...favorites, place.place_name]); // ensure this matches the data structure
+                setFavorites([...favorites, place.place_name]); 
             }
         } catch (error) {
             console.error('Error toggling favorite', error);
@@ -195,7 +194,7 @@ const Locals = () => {
                 id="map"
                 style={{
                     width: '100%',
-                    height: '100vh', // 전체 화면
+                    height: '100vh', 
                     position: 'relative',
                     overflow: 'hidden',
                 }}
@@ -225,7 +224,7 @@ const Locals = () => {
                                 
                             </div>
                             <span
-                                className={`locallist-favorite ${favorites.includes(selectedPlace.place_name) ? 'active' : ''}`} // ensure this matches the data structure
+                                className={`locallist-favorite ${favorites.includes(selectedPlace.place_name) ? 'active' : ''}`} 
                                 onClick={() => toggleFavorite(selectedPlace)}
                             >
                                 ★

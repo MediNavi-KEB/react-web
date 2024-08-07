@@ -12,7 +12,7 @@ const Chatbot = () => {
     const [inputText, setInputText] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [chatType, setChatType] = useState('');
-    const [selectedDisease, setSelectedDisease] = useState(null);
+
     const [departments, setDepartments] = useState([]);
     const chatBodyRef = useRef(null);
 
@@ -138,8 +138,6 @@ const Chatbot = () => {
                             return updatedMessages;
                         });
                     }
-
-                    setSelectedDisease(option);
 
                     const departmentResponse = await axios.get(`/disease/department_by_disease/${option}`);
                     setDepartments(departmentResponse.data);
