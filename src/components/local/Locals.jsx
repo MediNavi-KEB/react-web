@@ -203,10 +203,7 @@ const Locals = () => {
 
             <div className="local-menu_wrap">
                 <Form className="local-menu-option" onSubmit={handleSubmit}>
-                    <InputGroup className="local-input-group-custom">
-                        <Form.Control name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} />
-                        <Button type="submit">검색</Button>
-                    </InputGroup>
+                <input name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} className="local-search-input"/>
                 </Form>
             </div>
 

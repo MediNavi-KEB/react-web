@@ -9,11 +9,8 @@
 }
 
 .title {
-  top: 10px;
   left: 50%;
-  transform: translateX(-50%);
-  position: fixed;
-  margin-top: 10px; /* 필요에 따라 조정 */
+  margin-top: 10px; 
   font-weight: bold;
   font-size: 24px;
   text-align: center;
@@ -49,13 +46,12 @@ html, body {
 
 .header {
   position: fixed;
-  top: 10px;
-  /* left: 300px; 왼쪽에서 약간 오른쪽으로 이동 */
+  top: 15px;
   transform: translateX(10px); /* 추가적인 세밀한 이동 */
   width: 60px;
   height: 60px;
   background-color: transparent;
-  z-index: 1000; /* 다른 요소보다 앞에 배치 */
+  z-index: 1; 
 }
 
 @media (min-width: 430px) {
@@ -98,8 +94,8 @@ html, body {
 }
 
 .icon-header {
-  font-size: 50px;
-  color: #368aff;
+  font-size: 40px;
+  color: #787878;
 }
 
 .icon-text {
@@ -156,10 +152,7 @@ html, body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  max-width: 430px;
   margin: 0 auto;
-  /* border: 1px solid #ccc; */
-  box-shadow: 0 0 10px rgbba(0, 0, 0, 0.1);
 }
 
 .chat-footer {
@@ -216,8 +209,8 @@ html, body {
   position: fixed;
   top: 10px; /* 위에서 10px 떨어진 위치 */
   transform: translateX(10px); 
-  font-size: 50px;
-  color: rgb(54, 138, 255);
+  font-size: 40px;
+  color: #787878;
   cursor: pointer;
 }
 
@@ -254,6 +247,7 @@ html, body {
 }
 
 .message {
+  font-size: 12px;
   display: flex;
   margin: 10px 0;
   align-items: center;
@@ -320,36 +314,31 @@ html, body {
   background-color: #ffffff;
 }
 
-.options {
+.chat-btn-options {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   margin-top: 10px;
 }
 
-
 .option-message {
   background-color: #007bff;
   color: rgb(0, 0, 0);
   padding: 10px;
   border-radius: 10px;
-  margin: 5px 0;
+  margin: 3px 0;
 }
 
-.options button {
+.chat-btn-options button {
   background-color: #ffffff;
   border: 1px solid #007bff;
   color: #007bff;
   border-radius: 20px;
-  padding: 10px 8px;
-  margin: 3px;
+  padding: 5px 8px;
+  margin: 0 3px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   white-space: nowrap;
-}
-
-.options button hover {
-  background-color: #e1e1e1;
 }
 
 .chat-footer button {
@@ -367,12 +356,12 @@ html, body {
 }
 
 /* mypage css */
-
 .mypage-img-container{
   text-align: center;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-bottom: 20px;
 }
+
 .mypage-list-group-total {
   margin-top: 50px;
 }
@@ -425,6 +414,7 @@ html, body {
   display: flex;
   align-items: center;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 .mypage-button-forward {
@@ -432,36 +422,25 @@ html, body {
   align-items: center;
 }
 
-.mypage-button-logout {
-  background-color: #5a5a59;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  height: 50px;
-  width: 100px;
-}
-
-.mypage-button-leave {
-  background-color: #5a5a59;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  height: 50px;
-  width: 100px;
-}
-
 .mypage-icon-spacing {
-  margin-right: 0.5em; /* 아이콘과 텍스트 사이에 0.5em의 여백을 추가 */
+  margin-right: 0.5em;
 }
 
 /* account css */
 .account-subtitle {
-  margin-top: 80px;
+  margin-top: 50px;
   margin-left: 50px;
   margin-bottom: 20px;
 }
 
 .account-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 10px;
+}
+
+.account-wrap {
   margin-top: 30px;
 }
 
@@ -481,7 +460,7 @@ html, body {
   background: #5a5a59;
   margin: 0 auto; 
   width: 70%;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .account-list {
@@ -496,7 +475,7 @@ html, body {
 
 .account-button {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .account-button-update {
@@ -519,13 +498,6 @@ html, body {
   border-radius: 15px;
   border-color: #292826;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-  /* style={{ padding: '10px', backgroundColor: 'white', borderRadius: '10px', position: 'absolute', bottom: '20px', left: '20px', zIndex: 10 }}
-  padding: 10px;
-  z-index: 1;
-  font-size: 12px;
-  height: 60px;
-  width: 200px;
-  border-radius: 15px; */
 }
 
 .local-map_wrap {
@@ -544,7 +516,6 @@ html, body {
   align-items: center;
   height: 100vh;
   background-color: #fff;
-  /* padding: 20px; */
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -555,12 +526,7 @@ html, body {
   text-align: center;
   width: 65%; /* 메뉴 너비 조정 */
   height: 60px;
-  /* max-height: 500px; 최대 높이 설정 */
-  /* background: rgb(243, 243, 243); */
-  /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); */
   border-radius: 10px;
-  /* padding: 10px; */
-  /* overflow-y: auto; 내용이 넘치면 스크롤 */
   z-index: 10;
   display: flex;
   align-items: center;
@@ -573,6 +539,15 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.local-search-input{
+  width: 75%;
+  padding: 10px 18px; /* 패딩 감소 */
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 14px; /* 폰트 크기 감소 */
+  outline: none;
 }
 
 .local-input-group-custom {
@@ -621,13 +596,11 @@ html, body {
 }
 
 /* LocalList.css */
-
 .locallist-map_wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
-  /* padding: 20px; */
   box-sizing: border-box;
   overflow: hidden;
   min-height: 100vh;
@@ -646,7 +619,7 @@ html, body {
   max-width: 430px;
   padding: 5px 20px;
   overflow-y: auto;
-  max-height: calc(100vh - 50px); /* Adjusted for header height */
+  max-height: calc(100vh - 50px); 
   display: flex;
   flex-direction: column;
 }
@@ -661,9 +634,6 @@ html, body {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
   padding: 10px;
-  /* box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2); */
-  /* border: 2px solid;
-  border-color: #368affad; */
 }
 
 #locallist-placesList {
@@ -759,11 +729,7 @@ html, body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  /* max-width: 430px; */
-  /* align-items: center; */
-  /* justify-content: center; 상하 중앙 정렬 */
   padding: 10px;
-  box-sizing: border-box; /* 패딩 포함 박스 모델 */
 }
 
 
@@ -875,8 +841,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-  margin-top: 50px;
+  margin : 20px auto;
 }
 
 .about-image {
@@ -886,7 +851,7 @@ html, body {
 }
 
 .about-description {
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
   margin: 0 15px; /* 좌우 여백 */
 }
@@ -905,7 +870,7 @@ html, body {
 }
 
 .about-text {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
   margin: 5px 0;
 }
@@ -959,13 +924,12 @@ html, body {
   padding: 20px;
   background-color: #ffffff;
   min-height: 100vh;
-  /* max-width: 400px; */
   box-sizing: border-box;
   margin: 0 auto;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow-x: hidden; /* 가로 스크롤 제거 */
-  overflow-y: auto; /* 세로 스크롤 자동 */
+  overflow-x: hidden; 
+  overflow-y: auto; 
   display: flex;
   flex-direction: column;
   align-items: center;

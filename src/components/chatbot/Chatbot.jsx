@@ -208,7 +208,7 @@ const Chatbot = () => {
                         <div className={`message-bubble ${message.options ? 'option-message' : ''}`}>
                             {message.text}
                             {message.options && (
-                                <div className="options">
+                                <div className="chat-btn-options">
                                     {message.options.map((option, idx) => (
                                         <button key={idx} onClick={() => handleOptionSelection(option)}>
                                             {option}

@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import RouteZip from './components/basis/RouteZip';
 import Footer from './components/basis/Footer';
-import Header from './components/basis/Header';
 
 function App() {
   return (
@@ -20,7 +19,6 @@ const Main = () => {
 
   return (
     <div className='App'>
-      {!shouldHide && <Header />}
       <RouteZip />
       {!shouldHide && <Footer />}
     </div>

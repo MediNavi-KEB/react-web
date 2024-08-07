@@ -1,10 +1,12 @@
 import React from 'react';
+import Header from '../basis/Header';
 
 const About = () => {
 
   return (
     <div className="about-container">
       <div className='title'>About</div>
+      <Header/>
       <div className="about-image-container">
         <img className="about-image" src="https://cdn-icons-png.flaticon.com/128/6134/6134346.png" alt="Sample" />
         <p className="about-description">

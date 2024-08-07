@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import Header from '../basis/Header';
 
 const Account = () => {
     const [user, setUser] = useState({});
@@ -58,10 +59,11 @@ const Account = () => {
     };
 
     return (
-        <div>
+        <div className='account-container'>
             <div className='title'>Setting</div>
+            <Header/>
             <h2 className='account-subtitle' style={{color:'#5a5a59'}}>Account</h2>
-            <div className='account-container'>
+            <div className='account-wrap'>
                 <div className='account-list'>
                     <label className='account-label-spacing'>Name*</label>
                     <input className='account-input' value={name} name="name" size={40} onChange={onChange}></input>
