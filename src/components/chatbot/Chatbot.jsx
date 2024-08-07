@@ -4,7 +4,6 @@ import Header from '../basis/Header';
 import { Col, Row } from 'react-bootstrap';
 import { IoReloadCircleOutline } from "react-icons/io5";
 import axios from 'axios';
-import './Chatbot.css';
 
 const Chatbot = () => {
     const navigate = useNavigate();
@@ -35,29 +34,53 @@ const Chatbot = () => {
     const handleSend = async () => {
         if (inputText.trim() && !isSending) {
             setIsSending(true);
-            const newMessages = [...messages, { sender: 'user', text: inputText }];
-            setMessages(newMessages);
+            const userMessage = { sender: 'user', text: inputText };
+            setMessages(prevMessages => [...prevMessages, userMessage]);
             setInputText('');
 
             if (chatType === '질병 상담') {
                 try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/disease_recommendation', { input: inputText });
+                    const response = await axios.post('http://127.0.0.1:8000/ai/disease_recommendation', { input: inputText });
                     console.log('Server response:', response.data);
-                    setMessages([...newMessages, { sender: 'bot', text: response.data.output, options: response.data.disease }]);
+                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: response.data.output, options: response.data.disease }]);
                 } catch (error) {
-                    console.error("Error translating text", error);
-                    setMessages([...newMessages, { sender: 'bot', text: "Error translating text" }]);
+                    console.error("Error fetching disease recommendation", error);
+                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: "Error fetching disease recommendation" }]);
                 } finally {
                     setIsSending(false);
                 }
             } else if (chatType === '기타 문의') {
                 try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/disease-advice', { input: inputText });
-                    console.log('Server response:', response.data);
-                    setMessages([...newMessages, { sender: 'bot', text: response.data.description }]);
+                    const response = await fetch('http://127.0.0.1:8000/ai/disease-advice', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ input: inputText })
+                    });
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let done = false;
+
+                    // 임시 메시지 추가
+                    let streamingMessage = { sender: 'bot', text: '' };
+                    setMessages(prevMessages => [...prevMessages, streamingMessage]);
+
+                    while (!done) {
+                        const { value, done: doneReading } = await reader.read();
+                        done = doneReading;
+                        const chunk = decoder.decode(value, { stream: true });
+                        streamingMessage.text += chunk.replace(/[\r\n]+/g, ' ');  // 줄바꿈을 공백으로 대체
+                        setMessages(prevMessages => {
+                            const updatedMessages = [...prevMessages];
+                            updatedMessages[updatedMessages.length - 1] = streamingMessage;
+                            return updatedMessages;
+                        });
+                    }
                 } catch (error) {
                     console.error("Error fetching advice", error);
-                    setMessages([...newMessages, { sender: 'bot', text: "Error fetching advice" }]);
+                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: "Error fetching advice" }]);
                 } finally {
                     setIsSending(false);
                 }
@@ -88,14 +111,38 @@ const Chatbot = () => {
                     const user_disease_response = await axios.post('/disease/user_disease', user_disease_data);
                     console.log('user_disease response:', user_disease_response);
 
-                    const response = await axios.post('http://127.0.0.1:8000/api/hospital_recommendation', { input: option });
-                    console.log('Server response:', response.data);
+                    const response = await fetch('http://127.0.0.1:8000/ai/hospital_recommendation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ input: option })
+                    });
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let done = false;
+
+                    // 임시 메시지 추가
+                    let streamingMessage = { sender: 'bot', text: '' };
+                    setMessages(prevMessages => [...prevMessages, streamingMessage]);
+
+                    while (!done) {
+                        const { value, done: doneReading } = await reader.read();
+                        done = doneReading;
+                        const chunk = decoder.decode(value, { stream: true });
+                        streamingMessage.text += chunk.replace(/[\r\n]+/g, ' ');  // 줄바꿈을 공백으로 대체
+                        setMessages(prevMessages => {
+                            const updatedMessages = [...prevMessages];
+                            updatedMessages[updatedMessages.length - 1] = streamingMessage;
+                            return updatedMessages;
+                        });
+                    }
+
                     setSelectedDisease(option);
 
                     const departmentResponse = await axios.get(`/disease/department_by_disease/${option}`);
                     setDepartments(departmentResponse.data);
-
-                    setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: response.data.description, options: departmentResponse.data.map(dept => dept.department_name) }]);
 
                     setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: '아래 진료과로 가보세요', options: departmentResponse.data.map(dept => dept.department_name) }]);
                 } catch (error) {

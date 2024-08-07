@@ -599,7 +599,7 @@ html, body {
   background-color: #ffffff;
   color: #2c2c2c;
   border-color:#7a7a7a;
-  border-style: double;
+  border-style: solid;
   border-radius: 20px;
   height: 40px;
   width: 110px;
@@ -1074,4 +1074,169 @@ html, body {
 
 .home-news-card button:hover {
   background: #0056b3;
+}
+
+.cal-calendar {
+  max-width: 430px;
+  margin: 50px auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.cal-header, .cal-days, .cal-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal-col {
+  flex: 1;
+  text-align: center;
+}
+
+.cal-cell {
+  padding: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cal-cell:hover {
+  background-color: #d3d3d3;
+}
+
+.cal-cell.selected {
+  background-color: #f0f8ff;
+}
+
+.cal-cell.disabled {
+  color: #d3d3d3;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
+.cal-number {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.cal-memo {
+  margin: 2px 0;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 9px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.cal-memo-diagnosis {
+  background-color: rgba(0, 89, 255, 0.632);
+}
+
+.cal-memo-prescription {
+  background-color: rgba(255, 213, 0, 0.879);
+}
+
+.cal-memo-pain {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.cal-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cal-modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cal-modal-close:hover {
+  color: black;
+}
+
+.cal-textarea {
+  width: 100%;
+  padding: 1px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  resize: none;
+}
+
+.cal-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cal-button-delete {
+  background-color: #b93737;
+  color: white;
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cal-datepicker{
+  width: 110px;
+}
+
+.cal-modal-content .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cal-range-inputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-range-inputs label {
+  flex: 1;
+}
+
+.cal-range-inputs label:first-child {
+  margin-right: 10px;
+}
+
+.cal-range-inputs input[type="date"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 }
