@@ -2,6 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, addMonths, isSameMonth, isSameDay, eachDayOfInterval, differenceInCalendarDays } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
+
+// Axios 설정
+const api = axios.create({
+  baseURL: '/calendar', // FastAPI 서버 주소
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// API 호출 함수
+const registerCalendar = async (calendarData) => {
+  console.log('registerCalendar', calendarData);
+  const response = await api.post('/register', calendarData);
+  return response.data;
+};
+
+const readCalendarsByUser = async (userId) => {
+  console.log('readCalendarsByUser', userId);
+  const response = await api.get(`/read/${userId}`);
+  return response.data;
+};
+
+const deleteCalendar = async (calendarId) => {
+  console.log('deleteCalendar', calendarId);
+  const response = await api.delete(`/delete/${calendarId}`);
+  return response.data;
+};
+
+const updateCalendar = async (calendarId, calendarUpdate) => {
+  console.log('updateCalendar', calendarId, calendarUpdate);
+  const response = await api.put(`/update/${calendarId}`, calendarUpdate);
+  return response.data;
+};
 
 const Calendar = () => {
   const today = new Date();
@@ -12,15 +46,29 @@ const Calendar = () => {
   const [memoRange, setMemoRange] = useState({ start: today, end: today });
   const [selectedMemo, setSelectedMemo] = useState(null);
 
+  const userId = localStorage.getItem('user_id'); // user_id를 로컬 스토리지에서 가져오기
+
+  const fetchMemos = async () => {
+    try {
+      const memos = await readCalendarsByUser(userId);
+      console.log('Fetched memos:', memos);
+      setMemos(memos.reduce((acc, memo) => {
+        const dateKey = format(new Date(memo.date_time), 'yyyy-MM-dd');
+        acc[dateKey] = acc[dateKey] || [];
+        acc[dateKey].push(memo);
+        return acc;
+      }, {}));
+    } catch (error) {
+      console.error('Failed to fetch memos:', error);
+    }
+  };
+
   useEffect(() => {
-    document.querySelectorAll('.cal-cell').forEach(cell => {
-      const cellDate = new Date(cell.dataset.date);
-      const isInRange = cellDate >= memoRange.start && cellDate <= memoRange.end;
-      cell.classList.toggle('cal-in-range', isInRange);
-    });
-  }, [memoRange]);
+    fetchMemos();
+  }, [currentMonth]);
 
   const handleDateChange = (name, date) => {
+    console.log('handleDateChange', name, date);
     if (name === 'end' && date < memoRange.start) {
       alert('종료 날짜는 시작 날짜보다 빠를 수 없습니다.');
       return;
@@ -29,11 +77,13 @@ const Calendar = () => {
   };
 
   const closeModal = () => {
+    console.log('closeModal');
     setIsModalOpen(false);
     setSelectedMemo(null);
   };
 
   const handleDateClick = day => {
+    console.log('handleDateClick', day);
     setSelectedDate(day);
     setMemoRange({ start: day, end: day });
     setIsModalOpen(true);
@@ -42,12 +92,13 @@ const Calendar = () => {
 
   const handleMemoClick = (e, dateKey, memo, index) => {
     e.stopPropagation();
-    setSelectedMemo({ dateKey, memo, index });
-    setMemoRange({ start: new Date(dateKey), end: new Date(dateKey) });
+    console.log('handleMemoClick', dateKey, memo, index);
+    setSelectedMemo(memo); // 올바르게 설정
+    setMemoRange({ start: new Date(memo.date_time), end: new Date(memo.date_time) });
     setIsModalOpen(true);
   };
 
-  const handleMemoAction = (e, action) => {
+  const handleMemoAction = async (e, action) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const category = formData.get('category');
@@ -55,46 +106,56 @@ const Calendar = () => {
     const dates = eachDayOfInterval({ start: memoRange.start, end: memoRange.end });
     const duration = differenceInCalendarDays(memoRange.end, memoRange.start) + 1;
 
-    if (action === 'submit') {
-      const newMemos = dates.reduce((acc, date) => {
-        const dateKey = format(date, 'yyyy-MM-dd');
-        acc[dateKey] = acc[dateKey] || [];
-        acc[dateKey].push({ category, memo, duration, idx: acc[dateKey].length });
-        return acc;
-      }, {});
+    // KST로 변환된 날짜 시간
+    const kstDateTime = new Date(memoRange.start.getTime() + (9 * 60 * 60 * 1000)).toISOString();
 
-      setMemos(prev => ({
-        ...prev,
-        ...Object.keys(newMemos).reduce((acc, key) => {
-          acc[key] = [...(prev[key] || []), ...newMemos[key]];
-          return acc;
-        }, {}),
-      }));
-    } else if (action === 'edit') {
-      const { dateKey, index } = selectedMemo;
-      setMemos(prev => {
-        const newMemos = { ...prev };
-        newMemos[dateKey][index] = { ...newMemos[dateKey][index], category, memo };
-        return newMemos;
-      });
-      setSelectedMemo(null);
+    const memoData = {
+      user_id: userId,
+      date_time: kstDateTime,
+      memo_category: category,
+      memo_content: memo,
+    };
+
+    console.log('handleMemoAction', action, memoData, selectedMemo);
+
+    try {
+      if (action === 'submit') {
+        await registerCalendar(memoData);
+        fetchMemos();
+      } else if (action === 'edit') {
+        if (selectedMemo && selectedMemo.calendar_id) {
+          await updateCalendar(selectedMemo.calendar_id, memoData); // 올바르게 설정
+          fetchMemos();
+        } else {
+          console.error('Failed to update memo: selectedMemo is missing calendar_id');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to handle memo action:', error);
     }
     closeModal();
   };
 
-  const handleMemoDelete = () => {
-    const { dateKey, index } = selectedMemo;
-    setMemos(prev => {
-      const newMemos = { ...prev };
-      newMemos[dateKey].splice(index, 1);
-      if (newMemos[dateKey].length === 0) delete newMemos[dateKey];
-      return newMemos;
-    });
+  const handleMemoDelete = async () => {
+    console.log('handleMemoDelete', selectedMemo);
+    try {
+      if (selectedMemo && selectedMemo.calendar_id) {
+        await deleteCalendar(selectedMemo.calendar_id); // 올바르게 설정
+        fetchMemos();
+      } else {
+        console.error('Failed to delete memo: selectedMemo is missing calendar_id');
+      }
+    } catch (error) {
+      console.error('Failed to delete memo:', error);
+    }
     setSelectedMemo(null);
     closeModal();
   };
 
-  const changeMonth = direction => setCurrentMonth(prev => addMonths(prev, direction));
+  const changeMonth = direction => {
+    console.log('changeMonth', direction);
+    setCurrentMonth(prev => addMonths(prev, direction));
+  };
 
   const renderCells = () => {
     const monthStart = startOfMonth(currentMonth);
@@ -111,7 +172,7 @@ const Calendar = () => {
         const cloneDay = day;
         const formattedDate = format(day, 'd');
         const dateKey = format(day, 'yyyy-MM-dd');
-        // const isInCurrentMonth = isSameMonth(day, currentMonth);
+        const isInCurrentMonth = isSameMonth(day, currentMonth);
         const isSelected = isSameDay(day, selectedDate);
         const isDisabled = false;
 
@@ -129,11 +190,11 @@ const Calendar = () => {
                 {memos[dateKey].map((memo, index) => (
                   <div
                     key={index}
-                    className={`cal-memo cal-memo-${memo.category} ${memo.idx === 0 ? 'cal-memo-start' : memo.idx === memo.duration - 1 ? 'cal-memo-end' : 'cal-memo-middle'}`}
+                    className={`cal-memo cal-memo-${memo.memo_category === '병원' ? 'hospital' : memo.memo_category === '약' ? 'medicine' : 'pain'} ${memo.idx === 0 ? 'cal-memo-start' : memo.idx === memo.duration - 1 ? 'cal-memo-end' : 'cal-memo-middle'}`}
                     onClick={e => handleMemoClick(e, dateKey, memo, index)}
                     style={{ gridColumn: `span ${memo.duration}`, cursor: 'pointer' }}
                   >
-                    {memo.category === 'diagnosis' ? '진단' : memo.category === 'prescription' ? '처방' : '통증'}
+                    {memo.memo_category}
                   </div>
                 ))}
               </div>
@@ -174,9 +235,9 @@ const Calendar = () => {
             <h2>{selectedMemo ? '메모 수정' : '메모 추가'}</h2>
             <form onSubmit={e => handleMemoAction(e, selectedMemo ? 'edit' : 'submit')}>
               <div className="cal-radio-group">
-                {['diagnosis', 'prescription', 'pain'].map(category => (
+                {['통증', '약', '병원'].map(category => (
                   <label key={category}>
-                    <input type="radio" name="category" value={category} required defaultChecked={selectedMemo ? selectedMemo.memo.category === category : false} /> {category === 'diagnosis' ? '진단' : category === 'prescription' ? '처방기록' : '통증'}
+                    <input type="radio" name="category" value={category} required defaultChecked={selectedMemo ? selectedMemo.memo_category === category : false} /> {category}
                   </label>
                 ))}
               </div>
@@ -190,7 +251,7 @@ const Calendar = () => {
                   <DatePicker className='cal-datepicker' selected={memoRange.end} onChange={date => handleDateChange('end', date)} dateFormat="yyyy-MM-dd" />
                 </label>
               </div>
-              <textarea className='cal-textarea' name="memo" placeholder="카테고리를 선택 후, 메모를 작성하세요." rows="4" required defaultValue={selectedMemo ? selectedMemo.memo.memo : ''}></textarea>
+              <textarea className='cal-textarea' name="memo" placeholder="카테고리를 선택 후, 메모를 작성하세요." rows="4" required defaultValue={selectedMemo ? selectedMemo.memo_content : ''}></textarea>
               <div className="button-group">
                 <button className='cal-button' type="submit" style={{ cursor: 'pointer' }}>{selectedMemo ? '수정' : '추가'}</button>
                 {selectedMemo && <button className='cal-button-delete' type="button" onClick={handleMemoDelete} style={{ cursor: 'pointer' }}>삭제</button>}

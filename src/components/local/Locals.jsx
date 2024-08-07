@@ -231,7 +231,6 @@ const Locals = () => {
                                 ★
                             </span>
                         </div>
-                        
                     )}
                 </Modal.Body>
                 <Modal.Footer>
