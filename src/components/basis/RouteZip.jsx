@@ -13,6 +13,7 @@ import Account from '../user/Account';
 import Faq from '../user/Faq';
 import About from '../user/About';
 import LocalList from '../local/LocalList';
+import Saved from '../user/Saved';
 
 const RouteZip = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const RouteZip = () => {
           <Route path='/local/list' element={<PageWrapper><LocalList /></PageWrapper>} />
           <Route path='/mypage' element={<PageWrapper><MyPage /></PageWrapper>} />
           <Route path='/mypage/account' element={<PageWrapper><Account /></PageWrapper>} />
+          <Route path='/mypage/saved' element={<PageWrapper><Saved /></PageWrapper>} />
           <Route path='/mypage/faq' element={<PageWrapper><Faq /></PageWrapper>} />
           <Route path='/mypage/about' element={<PageWrapper><About /></PageWrapper>} />
           <Route path='/calendar' element={<PageWrapper><Calendar /></PageWrapper>} />

@@ -64,8 +64,10 @@ const MyPage = () => {
                 <hr className="section-divider" />
 
                 <div className='mypage-list-group'>
-                    <div className='mypage-list' style={{float:'left'}}><FaStar className='mypage-icon-spacing'/>  Saved</div>
-                    <div className='mypage-list-forward ' style={{float:'right'}}><IoIosArrowForward/></div>
+                    <Link to="/mypage/saved" className='custom-link'>
+                        <div className='mypage-list' style={{float:'left'}}><FaStar className='mypage-icon-spacing'/>  Saved</div>
+                        <div className='mypage-list-forward ' style={{float:'right'}}><IoIosArrowForward/></div>
+                    </Link>
                 </div>
                 <hr className="section-divider" />
 

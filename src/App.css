@@ -457,7 +457,7 @@ html, body {
 }
 
 .account-wrap {
-  margin-top: 30px;
+  margin-top: 70px;
 }
 
 .account-label-spacing {
@@ -730,6 +730,76 @@ html, body {
   vertical-align: middle; /* 텍스트 중간에 정렬 */
 }
 
+/* Saved.css */
+.saved-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  padding: 10px;
+}
+
+.saved-wrap {
+  height: 80vh;
+}
+
+.saved-placesList {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.saved-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: transform 0.2s;
+}
+
+.saved-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.saved-tel {
+  color: #2c88ff;
+  font-weight: bold;
+}
+
+.saved-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: flex-start; 
+}
+
+.saved-button-local {
+  background-color: #b3b3b3;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  height:30px;
+  width:45px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.saved-button-delete {
+  background-color: #e35050;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  height:30px;
+  width:45px;
+  font-size: 14px;
+}
 
 /* FAQ.css */
 .faq-container {
@@ -739,6 +809,9 @@ html, body {
   padding: 10px;
 }
 
+.faq-wrap {
+  margin-top: 60px;
+}
 
 /* 상단 바 스타일 */
 .faq-subtitle {
