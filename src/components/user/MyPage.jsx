@@ -47,7 +47,7 @@ const MyPage = () => {
     }
 
     return (
-        <div>
+        <div className='mypage-container'>
             <div className='title'>Setting</div>
             <div className='mypage-img-container'>
                 <img src={user.gender === '남성' ? 'https://cdn-icons-png.flaticon.com/128/6997/6997506.png' : 'https://cdn-icons-png.flaticon.com/128/6997/6997662.png'} alt="Profile" />

@@ -56,7 +56,7 @@ html, body {
 
 @media (min-width: 430px) {
   .header {
-    left: calc(50% - 200px); /* 600px 화면의 중앙에서 약간 오른쪽으로 이동 */
+    left: calc(50% - 200px); 
   }
 }
 
@@ -175,6 +175,10 @@ html, body {
   top: 1px;
 }
 
+.chat-header{
+  margin: 10px 0;
+}
+
 .chat-header-info {
   display: flex;
   flex-direction: column;
@@ -205,20 +209,26 @@ html, body {
   align-items: center;
 }
 
-.chat-header-refresh-icon {
+.chat-header-refresh {
   position: fixed;
-  top: 10px; /* 위에서 10px 떨어진 위치 */
-  transform: translateX(10px); 
-  font-size: 40px;
-  color: #787878;
-  cursor: pointer;
+  top: 15px;
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
+  z-index: 1; 
 }
 
 @media (min-width: 430px) {
-  .chat-header-refresh-icon {
-    right: calc(50% - 180px); 
+  .chat-header-refresh {
+    left: calc(50% + 153px); 
   }
 }
+
+.chat-header-refresh-icon {
+  font-size: 40px;
+  color: #787878;
+}
+
 
 .chat-header-status {
   display: flex;
@@ -356,14 +366,20 @@ html, body {
 }
 
 /* mypage css */
+.mypage-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 10px;
+}
+
 .mypage-img-container{
   text-align: center;
   margin-top: 50px;
-  margin-bottom: 20px;
 }
 
 .mypage-list-group-total {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .mypage-list-group {
@@ -398,7 +414,7 @@ html, body {
   margin-top: 20px auto;
   width: 70%;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .mypage-button-group {
@@ -407,7 +423,7 @@ html, body {
   display: flex;
   padding: 10px;
   align-items: center;
-  width: calc(100% - 30px); /* 두 개의 요소를 가로로 배치하기 위한 너비 조정 */
+  width: calc(100% - 30px); 
 }
 
 .mypage-button {
@@ -805,11 +821,10 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  /* max-width: 430px; */
   margin: 0 auto;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px; /* 상하 여백을 추가 */
+  padding: 10px; 
   box-sizing: border-box;
 }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../basis/Header';
-import { Col, Row } from 'react-bootstrap';
 import { IoReloadCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 
@@ -12,6 +11,7 @@ const Chatbot = () => {
     const [inputText, setInputText] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [chatType, setChatType] = useState('');
+    const [diseaseName, setDiseaseName] =useState('');
 
     const [departments, setDepartments] = useState([]);
     const chatBodyRef = useRef(null);
@@ -101,16 +101,7 @@ const Chatbot = () => {
         } else {
             if (chatType === '질병 상담') {
                 try {
-                    const kstDateTime = new Date(new Date().getTime() + (9 * 60 * 60 * 1000)).toISOString();
-                    const user_disease_data = {
-                        user_id: userId,
-                        disease_name: option,
-                        date_time: kstDateTime
-                    }
-
-                    const user_disease_response = await axios.post('/disease/user_disease', user_disease_data);
-                    console.log('user_disease response:', user_disease_response);
-
+                    setDiseaseName(option)
                     const response = await fetch('http://127.0.0.1:8000/ai/hospital_recommendation', {
                         method: 'POST',
                         headers: {
@@ -153,8 +144,17 @@ const Chatbot = () => {
         }
     };
 
-    const handleOptionSelection = (option) => {
+    const handleOptionSelection = async(option) => {
         if (departments.some(department => department.department_name === option)) {
+            const kstDateTime = new Date(new Date().getTime() + (9 * 60 * 60 * 1000)).toISOString();
+                    const user_disease_data = {
+                        user_id: userId,
+                        disease_name: diseaseName,
+                        date_time: kstDateTime
+                    }
+
+                    const user_disease_response = await axios.post('/disease/user_disease', user_disease_data);
+                    console.log('user_disease response:', user_disease_response);
             navigate(`/local?query=${option}`);
         } else {
             handleOptionClick(option);
@@ -177,26 +177,20 @@ const Chatbot = () => {
     return (
         <div className="chatbot-container">
             <div className="chat-header">
-                <Row>
-                    <Col>
-                        <Header />
-                    </Col>
-                    <Col className='my-3'>
-                        <div className="chat-header-info">
-                            <div className="chat-header-title">
-                                <div className="chat-header-icon"></div>
-                                <span className="chat-header-name">MediNavi</span>
-                            </div>
-                            <div className="chat-header-status">
-                                <div className="chat-status-indicator"></div>
-                                <span>Always active</span>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col className='my-3 ml-auto text-right' onClick={selectService}>
-                        <IoReloadCircleOutline className='chat-header-refresh-icon text-right' />
-                    </Col>
-                </Row>
+                <Header/>
+                <div className="chat-header-info">
+                    <div className="chat-header-title">
+                        <div className="chat-header-icon"></div>
+                        <span className="chat-header-name">MediNavi</span>
+                    </div>
+                    <div className="chat-header-status">
+                        <div className="chat-status-indicator"></div>
+                        <span>Always active</span>
+                    </div>
+                </div>
+                <div className='chat-header-refresh' onClick={selectService}>
+                    <IoReloadCircleOutline className='chat-header-refresh-icon' />
+                </div>
             </div>
             <div className="chat-body" ref={chatBodyRef}>
                 <div className="chat-current-time">{currentTime}</div>
