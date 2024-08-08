@@ -62,19 +62,19 @@ const LocalList = () => {
     }, [sortOption]);
 
     const toggleFavorite = async (place) => {
-        const isFavorite = favorites.includes(place.place_name); // ensure this matches the data structure
+        const isFavorite = favorites.includes(place.place_name);
         try {
             if (isFavorite) {
                 await axios.delete(`/favorite/delete/${userId}/${encodeURIComponent(place.place_name)}`);
-                setFavorites(favorites.filter(fav => fav !== place.place_name)); // ensure this matches the data structure
+                setFavorites(favorites.filter(fav => fav !== place.place_name)); 
             } else {
                 await axios.post('/favorite/create', {
                     user_id: userId,
-                    hospital_name: place.place_name, // ensure this matches the data structure
+                    hospital_name: place.place_name, 
                     hospital_address: place.road_address_name || place.address_name,
                     hospital_phone: place.phone,
                 });
-                setFavorites([...favorites, place.place_name]); // ensure this matches the data structure
+                setFavorites([...favorites, place.place_name]); 
             }
         } catch (error) {
             console.error('Error toggling favorite', error);

@@ -96,7 +96,7 @@ const Locals = () => {
 
                     const newMarkers = places.map((place, index) => {
                         const isFavorite = favorites.includes(place.place_name);
-
+                        console.log(place)
                         const marker = new kakao.maps.Marker({
                             map: mapInstance,
                             position: new kakao.maps.LatLng(place.y, place.x),
