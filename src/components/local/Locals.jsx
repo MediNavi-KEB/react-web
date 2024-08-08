@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BsList } from "react-icons/bs";
 import axios from 'axios';
@@ -37,19 +37,16 @@ const Locals = () => {
     useEffect(() => {
         const kakao = window.kakao;
 
-        // Kakao Maps API가 로드되었는지 확인
         if (!kakao || !kakao.maps || !kakao.maps.services) {
             console.error("Kakao Maps API가 로드되지 않았습니다.");
             return;
         }
 
-        // 현재 위치를 가져오기 위한 Geolocation API 호출
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 const { latitude, longitude } = position.coords;
                 setCurrentPosition({ lat: latitude, lng: longitude });
 
-                // 지도 생성 및 중심 설정
                 const container = document.getElementById('map');
                 const options = {
                     center: new kakao.maps.LatLng(latitude, longitude),
@@ -58,7 +55,6 @@ const Locals = () => {
                 const mapInstance = new kakao.maps.Map(container, options);
                 setMap(mapInstance);
 
-                // 현재 위치에 큰 빨간색 점 추가
                 const content = '<div class="local-custom-overlay"></div>';
                 const positionOverlay = new kakao.maps.LatLng(latitude, longitude);
 
@@ -69,10 +65,9 @@ const Locals = () => {
 
                 customOverlay.setMap(mapInstance);
 
-                // 장소 검색 객체 생성
                 const ps = new kakao.maps.services.Places();
+                const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-                // 키워드로 장소 검색
                 const searchPlaces = () => {
                     if (!keyword.replace(/^\s+|\s+$/g, '')) {
                         alert('키워드를 입력해주세요!');
@@ -84,11 +79,10 @@ const Locals = () => {
                     });
                 };
 
-                // 장소 검색 결과 콜백 함수
                 const placesSearchCB = (data, status) => {
                     if (status === kakao.maps.services.Status.OK) {
                         setPlaces(data);
-                        displayMarkers(data); // 마커 표시 함수 호출
+                        displayMarkers(data);
                     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                         alert('검색 결과가 존재하지 않습니다.');
                     } else if (status === kakao.maps.services.Status.ERROR) {
@@ -96,29 +90,30 @@ const Locals = () => {
                     }
                 };
 
-                // 마커 표시 함수
                 const displayMarkers = (places) => {
-                    // 이전 마커 제거
                     markers.forEach(marker => marker.setMap(null));
                     setMarkers([]);
 
                     const newMarkers = places.map((place, index) => {
+                        const isFavorite = favorites.includes(place.place_name);
+
                         const marker = new kakao.maps.Marker({
                             map: mapInstance,
                             position: new kakao.maps.LatLng(place.y, place.x),
+                            image: new kakao.maps.MarkerImage(
+                                isFavorite ? 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png' : 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+                                new kakao.maps.Size(24, 35)
+                            )
                         });
 
-                        // 마커 클릭 이벤트 설정
                         kakao.maps.event.addListener(marker, 'click', () => {
                             setSelectedPlace(place);
-                            setShowModal(true); // 모달 창 표시
+                            setShowModal(true);
 
-                            // 기존 선택된 오버레이 제거
                             if (selectedOverlay) {
                                 selectedOverlay.setMap(null);
                             }
 
-                            // 새로운 선택된 오버레이 생성
                             const overlayContent = '<div style="color: red; font-size: 24px; text-align: center;">▼</div>';
                             const newOverlay = new kakao.maps.CustomOverlay({
                                 position: new kakao.maps.LatLng(place.y, place.x),
@@ -128,7 +123,6 @@ const Locals = () => {
                             newOverlay.setMap(mapInstance);
                             setSelectedOverlay(newOverlay);
 
-                            // 클릭한 마커의 위치로 지도 중심 이동
                             mapInstance.setCenter(new kakao.maps.LatLng(place.y, place.x));
                         });
 
@@ -149,7 +143,7 @@ const Locals = () => {
         } else {
             alert('Geolocation을 지원하지 않는 브라우저입니다.');
         }
-    }, [keyword]);
+    }, [keyword, favorites]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -164,24 +158,24 @@ const Locals = () => {
         setShowModal(false);
         if (selectedOverlay) {
             selectedOverlay.setMap(null);
-            setSelectedOverlay(null); 
+            setSelectedOverlay(null);
         }
     };
 
     const toggleFavorite = async (place) => {
-        const isFavorite = favorites.includes(place.place_name); 
+        const isFavorite = favorites.includes(place.place_name);
         try {
             if (isFavorite) {
                 await axios.delete(`/favorite/delete/${userId}/${encodeURIComponent(place.place_name)}`);
-                setFavorites(favorites.filter(fav => fav !== place.place_name)); 
+                setFavorites(favorites.filter(fav => fav !== place.place_name));
             } else {
                 await axios.post('/favorite/create', {
                     user_id: userId,
-                    hospital_name: place.place_name, 
+                    hospital_name: place.place_name,
                     hospital_address: place.road_address_name || place.address_name,
                     hospital_phone: place.phone,
                 });
-                setFavorites([...favorites, place.place_name]); 
+                setFavorites([...favorites, place.place_name]);
             }
         } catch (error) {
             console.error('Error toggling favorite', error);
@@ -194,7 +188,7 @@ const Locals = () => {
                 id="map"
                 style={{
                     width: '100%',
-                    height: '100vh', 
+                    height: '100vh',
                     position: 'relative',
                     overflow: 'hidden',
                 }}
@@ -202,7 +196,10 @@ const Locals = () => {
 
             <div className="local-menu_wrap">
                 <Form className="local-menu-option" onSubmit={handleSubmit}>
-                <input name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} className="local-search-input"/>
+                    <InputGroup className="local-input-group-custom">
+                        <Form.Control name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} />
+                        <Button type="submit">검색</Button>
+                    </InputGroup>
                 </Form>
             </div>
 
@@ -224,12 +221,13 @@ const Locals = () => {
                                 
                             </div>
                             <span
-                                className={`locallist-favorite ${favorites.includes(selectedPlace.place_name) ? 'active' : ''}`} 
+                                className={`locallist-favorite ${favorites.includes(selectedPlace.place_name) ? 'active' : ''}`}
                                 onClick={() => toggleFavorite(selectedPlace)}
                             >
                                 ★
                             </span>
                         </div>
+                        
                     )}
                 </Modal.Body>
                 <Modal.Footer>
