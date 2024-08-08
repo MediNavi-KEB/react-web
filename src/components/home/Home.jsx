@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
-// import './Dashboard.css';
+import './Home.css';
 
 function Home() {
   const [query, setQuery] = useState('');
   const [newsData, setNewsData] = useState([]);
-  const [randomNews1, setRandomNews1] = useState(null);
-  const [randomNews2, setRandomNews2] = useState(null);
-  const [randomNews3, setRandomNews3] = useState(null);
+  const [randomNews, setRandomNews] = useState(null);
+  const [wordCloudData, setWordCloudData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,20 +19,27 @@ function Home() {
           complete: (results) => {
             if (results.data && results.data.length > 0) {
               setNewsData(results.data);
-              let index1 = Math.floor(Math.random() * results.data.length);
-              let index2 = Math.floor(Math.random() * results.data.length);
-              let index3 = Math.floor(Math.random() * results.data.length);
-              while (index2 === index1) {
-                index2 = Math.floor(Math.random() * results.data.length);
-              }
-              setRandomNews1(results.data[index1]);
-              setRandomNews2(results.data[index2]);
-              setRandomNews3(results.data[index3]);
+              const index = Math.floor(Math.random() * results.data.length);
+              setRandomNews(results.data[index]);
             }
           },
         });
       })
       .catch((error) => console.error('Error fetching news:', error));
+  }, []);
+
+  useEffect(() => {
+    // 테스트 데이터 설정
+    const data = [
+      { name: '고혈압', frequency: 4 },
+      { name: '구토', frequency: 7 },
+      { name: '빈혈', frequency: 5 },
+      { name: '열', frequency: 8 },
+      { name: '심장병', frequency: 6 },
+      { name: '당뇨병', frequency: 3 },
+      { name: '우울증', frequency: 12 },
+    ];
+    setWordCloudData(data);
   }, []);
 
   const handleSearchChange = (event) => {
@@ -53,6 +59,27 @@ function Home() {
     return summary.length > 50 ? summary.slice(0, 50) + '...' : summary;
   };
 
+  const renderHistogram = () => {
+    // 상위 7개의 빈도수를 가진 데이터만 표시
+    const sortedData = wordCloudData
+      .sort((a, b) => b.frequency - a.frequency)
+      .slice(0, 7);
+    
+    return (
+      <div className="home-histogram-container">
+        {sortedData.map((item, index) => (
+          <div key={index} className="home-histogram-bar">
+            <span>{item.name}</span>
+            <div
+              className="home-bar"
+              style={{ '--bar-height': `${item.frequency * 10}px` }} // 동적 높이 설정
+            ></div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="home-dashboard">
       <div className="home-search-section">
@@ -64,47 +91,34 @@ function Home() {
             onChange={handleSearchChange}
             className="home-search-input"
           />
-          <button type="submit" className="home-search-icon">
-            🔍
-          </button>
         </form>
       </div>
       <div className="home-previous-conditions">
         <h3>최근 상담 내역</h3>
         <div className="home-conditions-list">
-          <div className="home-condition-item">🤕 고혈압</div>
-          <div className="home-condition-item">🤢 구토</div>
-          <div className="home-condition-item">🤒 감기몸살</div>
-          <div className="home-condition-item">🩸 빈혈</div>
-          <div className="home-condition-item">🌡️ 열</div>
-          <div className="home-condition-item">💊 항생제</div>
+          {['🤕 고혈압', '🤢 구토', '🤒 감기몸살', '🩸 빈혈'].map((condition, index) => (
+            <div key={index} className="home-condition-item">{condition}</div>
+          ))}
+        </div>
+        <div className="home-word-cloud">
+          {renderHistogram()}
         </div>
       </div>
-      <hr className="home-divider" />
       <div className="home-points">
-      <div className="home-news-card-header">
-        <h4>오늘의 건강소식</h4>
+        <div className="home-news-card-header">
+          <h4>오늘의 건강소식</h4>
         </div>
-        {randomNews1 ? (
-          <div className="home-news-card" onClick={() => handleCardClick(randomNews1.Link)}>
-            <h4>{randomNews1.Title}</h4>
-            <p>{truncateSummary(randomNews1.Summary)}</p>
-            <button onClick={() => handleCardClick(randomNews1.Link)}>Read ▷</button>
-          </div>
-        ) : (
-          <p>뉴스를 불러오는 중입니다...</p>
-        )}
-        {randomNews2 ? (
-          <div className="home-news-card" onClick={() => handleCardClick(randomNews2.Link)}>
-            <h4>{randomNews2.Title}</h4>
-            <p>{truncateSummary(randomNews2.Summary)}</p>
-            <button onClick={() => handleCardClick(randomNews2.Link)}>Read ▷</button>
+        {randomNews ? (
+          <div className="home-news-card" onClick={() => handleCardClick(randomNews.Link)}>
+            <h4>{randomNews.Title}</h4>
+            <p>{truncateSummary(randomNews.Summary)}</p>
+            <button onClick={() => handleCardClick(randomNews.Link)}>Read ▷</button>
           </div>
         ) : (
           <p>뉴스를 불러오는 중입니다...</p>
         )}
       </div>
-  </div>
+    </div>
   );
 }
 
