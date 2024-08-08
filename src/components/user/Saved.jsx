@@ -27,13 +27,19 @@ const Saved = () => {
 
     const onClickDelete = async(favoriteId) => {
         console.log(favoriteId);
-        await axios.delete(`/favorite/delete_by_id/${favoriteId}`);
+        try {
+            await axios.delete(`/favorite/delete_by_id/${favoriteId}`);
+            setFavorites(favorites.filter(fav => fav.favorite_id !== favoriteId)); 
+        } catch (error) {
+            console.error('Error deleting favorite', error); 
+        }
     }
 
     return (
         <div className='saved-container'>
-            <div className='title mb-3'>Saved</div>
+            <div className='title'>Saved</div>
             <Header/>
+            <hr className='saved-divider'/>
             <ul className="saved-placesList">
                 {favorites.map(place=> (
                 <li key={place.hospital_phone} className="saved-item">

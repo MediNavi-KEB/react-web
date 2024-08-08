@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../basis/Header';
 import { IoReloadCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 
 const Chatbot = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { query, chatType: initialChatType } = location.state || {};
     const userId = localStorage.getItem('user_id');
     const [messages, setMessages] = useState([]);
-    const [inputText, setInputText] = useState('');
+    const [inputText, setInputText] = useState(query || '');
     const [isSending, setIsSending] = useState(false);
-    const [chatType, setChatType] = useState('');
+    const [chatType, setChatType] = useState(initialChatType || '');
     const [diseaseName, setDiseaseName] =useState('');
-
     const [departments, setDepartments] = useState([]);
     const chatBodyRef = useRef(null);
+    const hasInitialized = useRef(false); // 초기화 상태를 저장하는 ref
 
     const now = new Date();
     let hours = now.getHours();
@@ -28,8 +30,31 @@ const Chatbot = () => {
     const currentTime = `${day} ${hours}:${minutesStr} ${ampm}`;
 
     useEffect(() => {
-        setMessages([{ sender: 'bot', text: '안녕하세요, 상담 종류를 선택해주세요.', options: ['질병 상담', '기타 문의'] }]);
-    }, []);
+        if (!hasInitialized.current) {
+            if (initialChatType === '질병 상담' && query) {
+                const initializeDiseaseConsultation = async () => {
+                    setMessages([
+                        { sender: 'bot', text: '질병 상담을 선택하셨습니다. 증상을 입력해주세요.' },
+                        { sender: 'user', text: query }
+                    ]);
+
+                    try {
+                        const response = await axios.post('http://127.0.0.1:8000/ai/disease_recommendation', { input: query });
+                        console.log('Server response:', response.data);
+                        setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: response.data.output, options: response.data.disease }]);
+                    } catch (error) {
+                        console.error("Error fetching disease recommendation", error);
+                        setMessages(prevMessages => [...prevMessages, { sender: 'bot', text: "Error fetching disease recommendation" }]);
+                    }
+                };
+
+                initializeDiseaseConsultation();
+            } else {
+                setMessages([{ sender: 'bot', text: '안녕하세요, 상담 종류를 선택해주세요.', options: ['질병 상담', '기타 문의'] }]);
+            }
+            hasInitialized.current = true; // 초기화 완료
+        }
+    }, [initialChatType, query]);
 
     const handleSend = async () => {
         if (inputText.trim() && !isSending) {

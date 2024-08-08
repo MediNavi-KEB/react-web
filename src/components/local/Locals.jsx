@@ -12,7 +12,7 @@ const Locals = () => {
     const [places, setPlaces] = useState([]);
     const [keyword, setKeyword] = useState(query || '병원');
     const [currentPosition, setCurrentPosition] = useState(null);
-    const RADIUS = 2000; // 반경 2km
+    const RADIUS = 10000; // 반경 2km
     const [markers, setMarkers] = useState([]); // 마커 상태 추가
     const [selectedPlace, setSelectedPlace] = useState(null); // 선택된 장소 상태 추가
     const [selectedOverlay, setSelectedOverlay] = useState(null); // 선택된 오버레이 상태 추가
@@ -66,7 +66,6 @@ const Locals = () => {
                 customOverlay.setMap(mapInstance);
 
                 const ps = new kakao.maps.services.Places();
-                const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
                 const searchPlaces = () => {
                     if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -195,12 +194,9 @@ const Locals = () => {
             ></div>
 
             <div className="local-menu_wrap">
-                <Form className="local-menu-option" onSubmit={handleSubmit}>
-                    <InputGroup className="local-input-group-custom">
-                        <Form.Control name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} />
-                        <Button type="submit">검색</Button>
-                    </InputGroup>
-                </Form>
+                <form className="local-search-form" onSubmit={handleSubmit}>
+                    <input name="keyword" placeholder='ex.병원' defaultValue={query || '병원'} className="local-search-input"/>
+                </form>
             </div>
 
             <div className='local-list-button-wrap'>

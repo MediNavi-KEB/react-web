@@ -141,6 +141,7 @@
 
 .cal-datepicker {
   width: 110px;
+  margin-left: 5px;
 }
 
 .cal-modal-content .button-group {

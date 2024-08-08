@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../basis/Header';
 
 const LocalList = () => {
     const location = useLocation();
@@ -86,15 +87,16 @@ const LocalList = () => {
     };
 
     return (
-        <div className="locallist-map_wrap" style={{ background: '#fff', minHeight: '100vh' }}>
+        <div className="locallist-map_wrap">
             <div id="locallist-menu_wrap" className="locallist-bg_white">
                 <div className="locallist-option">
-                    <button onClick={() => handleSortChange('locallist-distance')}>
+                    <Header/>
+                    <button onClick={() => handleSortChange('locallist-distance')} className='locallist-menu-button'>
                         <img src="https://cdn-icons-png.flaticon.com/128/8052/8052172.png" className="locallist-menu-icon" />
                         거리순
                     </button>
-                    <button onClick={() => handleSortChange('locallist-recommended')}>
-                        <img src="https://cdn-icons-png.flaticon.com/128/3820/3820147.png" className="locallist-menu-icon" />
+                    <button onClick={() => handleSortChange('locallist-recommended')} className='locallist-menu-button'>
+                        <img src="https://cdn-icons-png.flaticon.com/128/6537/6537190.png" className="locallist-menu-icon" />
                         가나다순
                     </button>
                 </div>

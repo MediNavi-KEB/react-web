@@ -48,7 +48,7 @@ function Home() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigate('/chatbot', { state: { query } });
+    navigate('/chatbot', { state: { query, chatType: '질병 상담' } });
   };
 
   const handleCardClick = (link) => {
