@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
-  font-size: 16px; /* 전체 폰트 크기 감소 */
+  font-size: 16px;
 }
 
 .home-dashboard {
@@ -20,6 +20,19 @@ body {
   align-items: center;
 }
 
+.home-brand {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1px;
+}
+
+.home-brand h1 {
+  color: #007bff;
+  font-size: 25px;
+  font-weight: bold;
+}
+
 .home-search-section {
   margin-bottom: 15px;
   width: 100%;
@@ -35,7 +48,7 @@ body {
 }
 
 .home-search-input {
-  width: 75%;
+  width: 85%; /* 검색창 가로 길이 확대 */
   padding: 10px 18px;
   border-radius: 25px;
   border: 1px solid #ddd;
@@ -46,6 +59,11 @@ body {
 .home-previous-conditions {
   margin: 15px 0;
   width: 100%;
+}
+
+.home-previous-conditions h3,
+.home-news-card-header h4 {
+  font-size: 15px; /* 글씨 크기 줄이기 */
 }
 
 .home-conditions-list {
@@ -153,11 +171,9 @@ body {
   width: 100%;
   background-color: #007bff;
   height: 0; /* 초기 높이 값 0으로 설정 */
-  /* 애니메이션 적용 */
   animation: growBar 1s ease-out forwards;
 }
 
-/* 애니메이션 설정 */
 @keyframes growBar {
   from {
     height: 0;

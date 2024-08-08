@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import './Calendar.css';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'; // react-icons에서 아이콘 임포트
 
 const Calendar = () => {
   const today = new Date();
@@ -125,12 +126,19 @@ const Calendar = () => {
     let days = [];
     let day = startDate;
 
+    const holidays = [
+      '2024-01-01', '2024-02-09', '2024-02-10', '2024-02-11', '2024-03-01',
+      '2024-05-05', '2024-05-15', '2024-06-06', '2024-08-15', '2024-09-16',
+      '2024-09-17', '2024-09-18', '2024-10-03', '2024-10-09', '2024-12-25'
+    ];
+
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         const cloneDay = day;
         const formattedDate = format(day, 'd');
         const dateKey = format(day, 'yyyy-MM-dd');
         const isSelected = isSameDay(day, selectedDate);
+        const isHoliday = holidays.includes(dateKey) || day.getDay() === 0 || day.getDay() === 6; // Check for holidays and weekends
         const isDisabled = false;
 
         days.push(
@@ -141,15 +149,15 @@ const Calendar = () => {
             onClick={() => handleDateClick(cloneDay)}
             style={{ cursor: 'pointer' }}
           >
-            <span className={`cal-number ${isDisabled ? 'cal-disabled' : ''}`}>{formattedDate}</span>
+            <span className={`cal-number ${isHoliday ? 'cal-holiday' : ''}`}>{formattedDate}</span>
             {memos[dateKey] && (
               <div className="cal-memos">
                 {memos[dateKey].map((memo, index) => (
                   <div
                     key={index}
-                    className={`cal-memo cal-memo-${memo.memo_category === '병원' ? 'hospital' : memo.memo_category === '약' ? 'medicine' : 'pain'} ${memo.idx === 0 ? 'cal-memo-start' : memo.idx === memo.duration - 1 ? 'cal-memo-end' : 'cal-memo-middle'}`}
+                    className={`cal-memo cal-memo-${memo.memo_category === '병원' ? 'hospital' : memo.memo_category === '약' ? 'medicine' : 'pain'}`}
                     onClick={e => handleMemoClick(e, dateKey, memo, index)}
-                    style={{ gridColumn: `span ${memo.duration}`, cursor: 'pointer' }}
+                    style={{ cursor: 'pointer' }}
                   >
                     {memo.memo_category}
                   </div>
@@ -170,16 +178,16 @@ const Calendar = () => {
     <div className="cal-calendar">
       <div className="cal-header cal-row cal-flex-middle">
         <div className="cal-col cal-col-start" onClick={() => changeMonth(-1)} style={{ cursor: 'pointer' }}>
-          &#8592;
+          <FaArrowLeft />
         </div>
-        <div className="cal-col cal-col-center">{format(currentMonth, 'yyyy년 MM월')}</div>
+        <div className="cal-col cal-col-center">{format(currentMonth, 'yyyy MMM')}</div>
         <div className="cal-col cal-col-end" onClick={() => changeMonth(1)} style={{ cursor: 'pointer' }}>
-          &#8594;
+          <FaArrowRight />
         </div>
       </div>
       <div className="cal-days cal-row">
         {Array.from({ length: 7 }).map((_, i) => (
-          <div className="cal-col cal-col-center" key={i}>
+          <div className={`cal-col cal-col-center ${i === 0 || i === 6 ? 'cal-weekend' : ''}`} key={i}>
             {format(addDays(startOfWeek(currentMonth), i), 'eee')}
           </div>
         ))}
@@ -201,17 +209,34 @@ const Calendar = () => {
               <div className="cal-range-inputs">
                 <label className='cal-range-label'>
                   시작 날짜:
-                  <DatePicker className='cal-datepicker' selected={memoRange.start} onChange={date => handleDateChange('start', date)} dateFormat="yyyy-MM-dd" />
+                  <DatePicker
+                    selected={memoRange.start}
+                    onChange={date => handleDateChange('start', date)}
+                    selectsStart
+                    startDate={memoRange.start}
+                    endDate={memoRange.end}
+                    dateFormat="yyyy/MM/dd"
+                    className="cal-datepicker"
+                  />
                 </label>
-                <label>
+                <label className='cal-range-label'>
                   종료 날짜:
-                  <DatePicker className='cal-datepicker' selected={memoRange.end} onChange={date => handleDateChange('end', date)} dateFormat="yyyy-MM-dd" />
+                  <DatePicker
+                    selected={memoRange.end}
+                    onChange={date => handleDateChange('end', date)}
+                    selectsEnd
+                    startDate={memoRange.start}
+                    endDate={memoRange.end}
+                    minDate={memoRange.start}
+                    dateFormat="yyyy/MM/dd"
+                    className="cal-datepicker"
+                  />
                 </label>
               </div>
-              <textarea className='cal-textarea' name="memo" placeholder="카테고리를 선택 후, 메모를 작성하세요." rows="4" required defaultValue={selectedMemo ? selectedMemo.memo_content : ''}></textarea>
+              <textarea name="memo" className="cal-textarea" rows="4" defaultValue={selectedMemo ? selectedMemo.memo_content : ''} placeholder="메모 내용을 입력하세요" required></textarea>
               <div className="button-group">
-                <button className='cal-button' type="submit" style={{ cursor: 'pointer' }}>{selectedMemo ? '수정' : '추가'}</button>
-                {selectedMemo && <button className='cal-button-delete' type="button" onClick={handleMemoDelete} style={{ cursor: 'pointer' }}>삭제</button>}
+                <button type="submit" className="cal-button">{selectedMemo ? '수정' : '추가'}</button>
+                {selectedMemo && <button type="button" className="cal-button cal-button-delete" onClick={handleMemoDelete}>삭제</button>}
               </div>
             </form>
           </div>

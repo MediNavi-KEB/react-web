@@ -82,6 +82,9 @@ function Home() {
 
   return (
     <div className="home-dashboard">
+      <div className="home-brand">
+        <h1>MEDINAVI</h1>
+      </div>
       <div className="home-search-section">
         <form onSubmit={handleSearchSubmit} className="home-search-form">
           <input
