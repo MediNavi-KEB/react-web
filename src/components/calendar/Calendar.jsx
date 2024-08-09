@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import './Calendar.css';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'; // react-icons에서 아이콘 임포트
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 
 const Calendar = () => {
   const today = new Date();
@@ -177,71 +177,74 @@ const Calendar = () => {
   return (
     <div className="cal-calendar">
       <div className="cal-header cal-row cal-flex-middle">
-        <div className="cal-col cal-col-start" onClick={() => changeMonth(-1)} style={{ cursor: 'pointer' }}>
-          <FaArrowLeft />
+        <div className="cal-col-yyyymm">{format(currentMonth, 'yyyy MMM')}</div>
+        <div className="cal-col-start" onClick={() => changeMonth(-1)} style={{ cursor: 'pointer' }}>
+          <FaAngleLeft />
         </div>
-        <div className="cal-col cal-col-center">{format(currentMonth, 'yyyy MMM')}</div>
-        <div className="cal-col cal-col-end" onClick={() => changeMonth(1)} style={{ cursor: 'pointer' }}>
-          <FaArrowRight />
+        <div className="cal-col-end" onClick={() => changeMonth(1)} style={{ cursor: 'pointer' }}>
+          <FaAngleRight />
         </div>
       </div>
-      <div className="cal-days cal-row">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <div className={`cal-col cal-col-center ${i === 0 || i === 6 ? 'cal-weekend' : ''}`} key={i}>
-            {format(addDays(startOfWeek(currentMonth), i), 'eee')}
-          </div>
-        ))}
-      </div>
-      <div className="cal-body">{renderCells()}</div>
-      {isModalOpen && (
-        <div className="cal-modal">
-          <div className="cal-modal-content">
-            <span className="cal-modal-close" onClick={closeModal} style={{ cursor: 'pointer' }}>&times;</span>
-            <h2>{selectedMemo ? '메모 수정' : '메모 추가'}</h2>
-            <form onSubmit={e => handleMemoAction(e, selectedMemo ? 'edit' : 'submit')}>
-              <div className="cal-radio-group">
-                {['통증', '약', '병원'].map(category => (
-                  <label key={category}>
-                    <input type="radio" name="category" value={category} required defaultChecked={selectedMemo ? selectedMemo.memo_category === category : false} /> {category}
+      <div className='cal-body-wrap'>
+        <div className="cal-days cal-row">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div className={`cal-col cal-col-center ${i === 0 || i === 6 ? 'cal-weekend' : ''}`} key={i}>
+              {format(addDays(startOfWeek(currentMonth), i), 'eee')}
+            </div>
+          ))}
+        </div>
+        <div className="cal-body">{renderCells()}</div>
+        {isModalOpen && (
+          <div className="cal-modal">
+            <div className="cal-modal-content">
+              <span className="cal-modal-close" onClick={closeModal} style={{ cursor: 'pointer' }}>&times;</span>
+              <h2>{selectedMemo ? '메모 수정' : '메모 추가'}</h2>
+              <form onSubmit={e => handleMemoAction(e, selectedMemo ? 'edit' : 'submit')}>
+                <div className="cal-radio-group">
+                  {['통증', '약', '병원'].map(category => (
+                    <label key={category}>
+                      <input type="radio" name="category" value={category} required defaultChecked={selectedMemo ? selectedMemo.memo_category === category : false} /> {category}
+                    </label>
+                  ))}
+                </div>
+                <div className="cal-range-inputs">
+                  <label className='cal-range-label'>
+                    시작 날짜:
+                    <DatePicker
+                      selected={memoRange.start}
+                      onChange={date => handleDateChange('start', date)}
+                      selectsStart
+                      startDate={memoRange.start}
+                      endDate={memoRange.end}
+                      dateFormat="yyyy/MM/dd"
+                      className="cal-datepicker"
+                    />
                   </label>
-                ))}
-              </div>
-              <div className="cal-range-inputs">
-                <label className='cal-range-label'>
-                  시작 날짜:
-                  <DatePicker
-                    selected={memoRange.start}
-                    onChange={date => handleDateChange('start', date)}
-                    selectsStart
-                    startDate={memoRange.start}
-                    endDate={memoRange.end}
-                    dateFormat="yyyy/MM/dd"
-                    className="cal-datepicker"
-                  />
-                </label>
-                <label className='cal-range-label'>
-                  종료 날짜:
-                  <DatePicker
-                    selected={memoRange.end}
-                    onChange={date => handleDateChange('end', date)}
-                    selectsEnd
-                    startDate={memoRange.start}
-                    endDate={memoRange.end}
-                    minDate={memoRange.start}
-                    dateFormat="yyyy/MM/dd"
-                    className="cal-datepicker"
-                  />
-                </label>
-              </div>
-              <textarea name="memo" className="cal-textarea" rows="4" defaultValue={selectedMemo ? selectedMemo.memo_content : ''} placeholder="메모 내용을 입력하세요" required></textarea>
-              <div className="button-group">
-                <button type="submit" className="cal-button">{selectedMemo ? '수정' : '추가'}</button>
-                {selectedMemo && <button type="button" className="cal-button cal-button-delete" onClick={handleMemoDelete}>삭제</button>}
-              </div>
-            </form>
+                  <label className='cal-range-label'>
+                    종료 날짜:
+                    <DatePicker
+                      selected={memoRange.end}
+                      onChange={date => handleDateChange('end', date)}
+                      selectsEnd
+                      startDate={memoRange.start}
+                      endDate={memoRange.end}
+                      minDate={memoRange.start}
+                      dateFormat="yyyy/MM/dd"
+                      className="cal-datepicker"
+                    />
+                  </label>
+                </div>
+                <textarea name="memo" className="cal-textarea" rows="4" defaultValue={selectedMemo ? selectedMemo.memo_content : ''} placeholder="메모 내용을 입력하세요" required></textarea>
+                <div className="button-group">
+                  <button type="submit" className="cal-button">{selectedMemo ? '수정' : '추가'}</button>
+                  {selectedMemo && <button type="button" className="cal-button cal-button-delete" onClick={handleMemoDelete}>삭제</button>}
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      
     </div>
   );
 };
