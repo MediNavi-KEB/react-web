@@ -11,7 +11,8 @@ const Account = () => {
         phone: '',
         email: '',
         address: '',
-        gender: ''
+        gender: '',
+        chat_description: ''
     });
 
     const loadingUserData = async () => {
@@ -29,7 +30,7 @@ const Account = () => {
         loadingUserData();
     }, []);
 
-    const { user_id, password, name, phone, email, address, gender } = form;
+    const { user_id, password, name, phone, email, address, gender, chat_description } = form;
 
     const onChange = (e) => {
         setForm({
@@ -42,7 +43,7 @@ const Account = () => {
         if (window.confirm('사용자 정보를 업데이트 하겠습니까?')) {
             try {
                 const response = await axios.put(`/user/update/${user_id}`, {
-                    user_id, password, name, phone, email, address, gender 
+                    user_id, password, name, phone, email, address, gender, chat_description
                 });
 
                 if (response.status === 200) {
@@ -99,6 +100,15 @@ const Account = () => {
                 <div className='account-list'>
                     <label className='account-label-spacing'>Password**</label>
                     <input value={password} name="password" className='account-input' size={40} onChange={onChange}></input>
+                </div>
+                <hr className='account-section-divider'></hr>
+
+                <div className='account-list'>
+                    <label className='account-label-spacing'>Chat Description*</label>
+                    <select value={chat_description} name="chat_description" onChange={onChange} className="account-input">
+                        <option value="O">O</option>
+                        <option value="X">X</option>
+                    </select>
                 </div>
                 <hr className='account-section-divider'></hr>
             </div>

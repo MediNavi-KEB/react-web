@@ -155,6 +155,11 @@ html, body {
   margin: 0 auto;
 }
 
+.chatbot-container .blur-background {
+  filter: blur(5px); /* Chatbot 화면을 흐릿하게 */
+  pointer-events: none; /* 클릭 방지 */
+}
+
 .chat-footer {
   padding: 10px;
   background-color: #ffffff;
@@ -326,7 +331,7 @@ html, body {
 
 .chat-btn-options {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   margin-top: 10px;
 }
@@ -349,6 +354,10 @@ html, body {
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   white-space: nowrap;
+  max-width: 100%; /* 버튼이 너무 길어지지 않도록 제한 */
+  word-wrap: break-word; /* 필요시 단어를 줄바꿈 */
+  flex-grow: 1; /* 버튼이 가능한 공간을 채우도록 */
+  text-align: center;
 }
 
 .chat-footer button {

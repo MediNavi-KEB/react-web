@@ -7,14 +7,14 @@ import Footer from './components/basis/Footer';
 function App() {
   return (
     <Router>
-      <Main />
+        <Main />
     </Router>
   );
 }
 
 const Main = () => {
   const location = useLocation();
-  const hideRoutes = ['/', '/login', '/join', '/chatbot'];
+  const hideRoutes = ['/', '/login', '/join', '/chatbot', '/description'];
   const shouldHide = hideRoutes.includes(location.pathname);
 
   return (

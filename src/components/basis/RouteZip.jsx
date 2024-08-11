@@ -14,6 +14,7 @@ import Faq from '../user/Faq';
 import About from '../user/About';
 import LocalList from '../local/LocalList';
 import Saved from '../user/Saved';
+import ChatDescription from '../chatbot/ChatDescription';
 
 const RouteZip = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const RouteZip = () => {
           <Route path='/mypage/about' element={<PageWrapper><About /></PageWrapper>} />
           <Route path='/calendar' element={<PageWrapper><Calendar /></PageWrapper>} />
           <Route path='/chatbot' element={<PageWrapper><Chatbot /></PageWrapper>} />
+          <Route path='/description' element={<PageWrapper><ChatDescription /></PageWrapper>} />
         </Routes>
       </AnimatePresence>
     </div>

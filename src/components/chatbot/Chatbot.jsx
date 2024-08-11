@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../basis/Header';
 import { IoReloadCircleOutline } from "react-icons/io5";
 import axios from 'axios';
+import ChatDescription from './ChatDescription'; 
 
 const Chatbot = () => {
     const navigate = useNavigate();
@@ -13,10 +14,11 @@ const Chatbot = () => {
     const [inputText, setInputText] = useState(query || '');
     const [isSending, setIsSending] = useState(false);
     const [chatType, setChatType] = useState(initialChatType || '');
-    const [diseaseName, setDiseaseName] =useState('');
+    const [diseaseName, setDiseaseName] = useState('');
     const [departments, setDepartments] = useState([]);
     const chatBodyRef = useRef(null);
-    const hasInitialized = useRef(false); // 초기화 상태를 저장하는 ref
+    const hasInitialized = useRef(false);
+    const [showDescription, setShowDescription] = useState(false);  // 기본값을 false로 설정
 
     const now = new Date();
     let hours = now.getHours();
@@ -30,6 +32,19 @@ const Chatbot = () => {
     const currentTime = `${day} ${hours}:${minutesStr} ${ampm}`;
 
     useEffect(() => {
+        const fetchUserPreference = async () => {
+            try {
+                const response = await axios.get(`/user/get/${userId}`);
+                if (response.data.chat_description === 'O') {
+                    setShowDescription(true);  // 'O'일 때만 설명 페이지를 보여줌
+                }
+            } catch (error) {
+                console.error("Error fetching user data", error);
+            }
+        };
+
+        fetchUserPreference();
+
         if (!hasInitialized.current) {
             if (initialChatType === '질병 상담' && query) {
                 const initializeDiseaseConsultation = async () => {
@@ -52,9 +67,15 @@ const Chatbot = () => {
             } else {
                 setMessages([{ sender: 'bot', text: '안녕하세요, 상담 종류를 선택해주세요.', options: ['질병 상담', '기타 문의'] }]);
             }
-            hasInitialized.current = true; // 초기화 완료
+            hasInitialized.current = true;
         }
-    }, [initialChatType, query]);
+    }, [initialChatType, query, userId]);
+
+    useEffect(() => {
+        if (chatBodyRef.current) {
+            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     const handleSend = async () => {
         if (inputText.trim() && !isSending) {
@@ -88,7 +109,6 @@ const Chatbot = () => {
                     const decoder = new TextDecoder('utf-8');
                     let done = false;
 
-                    // 임시 메시지 추가
                     let streamingMessage = { sender: 'bot', text: '' };
                     setMessages(prevMessages => [...prevMessages, streamingMessage]);
 
@@ -126,7 +146,7 @@ const Chatbot = () => {
         } else {
             if (chatType === '질병 상담') {
                 try {
-                    setDiseaseName(option)
+                    setDiseaseName(option);
                     const response = await fetch('http://127.0.0.1:8000/ai/hospital_recommendation', {
                         method: 'POST',
                         headers: {
@@ -139,7 +159,6 @@ const Chatbot = () => {
                     const decoder = new TextDecoder('utf-8');
                     let done = false;
 
-                    // 임시 메시지 추가
                     let streamingMessage = { sender: 'bot', text: '' };
                     setMessages(prevMessages => [...prevMessages, streamingMessage]);
 
@@ -172,14 +191,14 @@ const Chatbot = () => {
     const handleOptionSelection = async(option) => {
         if (departments.some(department => department.department_name === option)) {
             const kstDateTime = new Date(new Date().getTime() + (9 * 60 * 60 * 1000)).toISOString();
-                    const user_disease_data = {
-                        user_id: userId,
-                        disease_name: diseaseName,
-                        date_time: kstDateTime
-                    }
+            const user_disease_data = {
+                user_id: userId,
+                disease_name: diseaseName,
+                date_time: kstDateTime
+            };
 
-                    const user_disease_response = await axios.post('/disease/user_disease', user_disease_data);
-                    console.log('user_disease response:', user_disease_response);
+            const user_disease_response = await axios.post('/disease/user_disease', user_disease_data);
+            console.log('user_disease response:', user_disease_response);
             navigate(`/local?query=${option}`);
         } else {
             handleOptionClick(option);
@@ -199,8 +218,13 @@ const Chatbot = () => {
         setInputText('');
     };
 
+    const handleSkipOrStart = () => {
+        setShowDescription(false);
+    };
+
     return (
-        <div className="chatbot-container">
+        <div className={`chatbot-container ${showDescription ? 'blur-background' : ''}`}>
+            {showDescription && <ChatDescription onClose={handleSkipOrStart} />}
             <div className="chat-header">
                 <Header/>
                 <div className="chat-header-info">
