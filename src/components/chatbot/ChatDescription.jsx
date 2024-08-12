@@ -156,7 +156,7 @@ const ChatDescription = ({ onClose }) => { // onClose prop 추가
                     "당뇨병",
                     "디스크",
                     "방광염",
-                    "소화성 궤양 질환(위계양)",
+                    "위궤양",
                     "수두",
                     "식중독",
                     "알레르기",

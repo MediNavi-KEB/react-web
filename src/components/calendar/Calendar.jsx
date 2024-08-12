@@ -176,15 +176,21 @@ const Calendar = () => {
 
   return (
     <div className="cal-calendar">
+      {/* <div className="cal-brand">
+            <div>MEDINAVI</div>
+        </div> */}
       <div className="cal-header cal-row cal-flex-middle">
         <div className="cal-col-yyyymm">{format(currentMonth, 'yyyy MMM')}</div>
-        <div className="cal-col-start" onClick={() => changeMonth(-1)} style={{ cursor: 'pointer' }}>
-          <FaAngleLeft />
-        </div>
-        <div className="cal-col-end" onClick={() => changeMonth(1)} style={{ cursor: 'pointer' }}>
-          <FaAngleRight />
+        <div className='cal-start-end-wrap'>
+          <div className="cal-col-start" onClick={() => changeMonth(-1)} style={{ cursor: 'pointer' }}>
+            <FaAngleLeft />
+          </div>
+          <div className="cal-col-end" onClick={() => changeMonth(1)} style={{ cursor: 'pointer' }}>
+            <FaAngleRight />
+          </div>
         </div>
       </div>
+      {/* <hr/> */}
       <div className='cal-body-wrap'>
         <div className="cal-days cal-row">
           {Array.from({ length: 7 }).map((_, i) => (
@@ -244,7 +250,7 @@ const Calendar = () => {
           </div>
         )}
       </div>
-      
+      {/* <hr/> */}
     </div>
   );
 };

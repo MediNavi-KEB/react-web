@@ -38,17 +38,13 @@ const Login = () => {
                  const diseaseResponse = await axios.get(`/disease/top-disease/${user_id}`);
                  const diseaseName = diseaseResponse.data.disease_name;
  
-             
                  await axios.post(`/news/crawler`, { user_id: user_id, disease_name: diseaseName });
- 
           
                  const newsResponse = await axios.get(`/news/read/${user_id}`);
                  const newsData = newsResponse.data;
  
-            
                  const diseaseDataResponse = await axios.get(`/disease/disease-frequencies/${user_id}`);
                  const diseaseData = diseaseDataResponse.data;
- 
    
                  localStorage.setItem('newsData', JSON.stringify(newsData));
                  localStorage.setItem('diseaseData', JSON.stringify(diseaseData));

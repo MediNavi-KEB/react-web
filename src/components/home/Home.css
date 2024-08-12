@@ -33,8 +33,8 @@ body {
 }
 
 .home-search-section {
-  margin-top: 30px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 0px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -57,16 +57,18 @@ body {
 }
 
 .home-previous-conditions {
-  margin: 15px 0;
+  margin-top: 10px;
+  margin-bottom: 2px;
   width: 100%;
 }
 
-.home-previous-conditions h3,
-.home-news-card-header h4 {
-  font-size: 15px; /* 글씨 크기 줄이기 */
+.home-previous-conditions-title {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .home-conditions-list {
+  cursor: pointer;
   display: flex;
   gap: 8px;
   padding-bottom: 8px;
@@ -95,6 +97,11 @@ body {
   width: 100%;
 }
 
+.home-news-card-header-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
 .home-news-card {
   background: #fff;
   padding: 12px;
@@ -105,17 +112,18 @@ body {
   width: 100%;
 }
 
-.home-news-card h4 {
+.home-news-card-title{
   color: #007bff;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .home-news-card p {
-  margin: 0 0 15px 0;
+  margin-bottom: 10px;
   color: #555;
-  font-size: 16px;
+  font-size: 11px;
 }
+
 
 .home-news-card button {
   background: #007bff;
@@ -124,7 +132,7 @@ body {
   padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 10px;
   text-align: center;
 }
 
@@ -137,7 +145,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px 0;
+  margin-bottom: 5px;
 }
 
 .home-histogram-container {
@@ -188,19 +196,17 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 50px; /* 최대 너비를 설정해 길이를 제한 */
-  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+  max-width: 50px; 
+  cursor: pointer; 
   position: relative;
 }
 
 .home-disease-name:hover::after {
-  content: attr(title); /* title 속성을 툴팁으로 표시 */
+  content: attr(title); 
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.7); /* 반투명한 배경색 */
-  color: #fff; /* 텍스트 색상 */
   padding: 5px;
-  border-radius: 3px;
-  top: 20px; /* 텍스트 위에 툴팁이 뜨도록 설정 */
+  border-radius: 10px;
+  top: 20px; 
   left: 0;
   white-space: nowrap;
   z-index: 10;
@@ -213,5 +219,58 @@ body {
   align-items: center;
   padding: 10px 50px;
   padding-top: 25px;
-  
+}
+
+.home-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.home-modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.home-modal-close:hover {
+  color: black;
+}
+
+.home-modal-content-title {
+  font-size: 12px;
+  color: #5e5e5e;
+}
+
+.home-modal-department-title {
+  font-size: 14px;
+  color: #007bff;
+}
+
+.home-department-button {
+  background-color: #e6e6e64a;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 20px;
+  padding: 5px 8px;
+  margin: 0 3px;
+  cursor: pointer;
 }
