@@ -3,7 +3,6 @@ import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, addM
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-import './Calendar.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 
 const Calendar = () => {
@@ -180,9 +179,6 @@ const Calendar = () => {
 
   return (
     <div className="cal-calendar">
-      {/* <div className="cal-brand">
-            <div>MEDINAVI</div>
-        </div> */}
       <div className="cal-header cal-row cal-flex-middle">
         <div className="cal-col-yyyymm">{format(currentMonth, 'yyyy MMM')}</div>
         <div className='cal-start-end-wrap'>
@@ -194,7 +190,6 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-      {/* <hr/> */}
       <div className='cal-body-wrap'>
         <div className="cal-days cal-row">
           {Array.from({ length: 7 }).map((_, i) => (
@@ -204,6 +199,7 @@ const Calendar = () => {
           ))}
         </div>
         <div className="cal-body">{renderCells()}</div>
+        <hr></hr>
         {isModalOpen && (
           <div className="cal-modal">
             <div className="cal-modal-content">

@@ -1008,30 +1008,39 @@ html, body {
 
 /* Home.css */
 .home-dashboard {
-  padding: 20px;
+  padding: 20px 0;
   background-color: #ffffff;
   min-height: 100vh;
+  max-width: 430px;
   box-sizing: border-box;
   margin: 0 auto;
-  overflow-x: hidden; 
-  overflow-y: auto; 
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.home-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.home-other-wrap {
+  width: 380px;
+}
+
+.home-brand {
   width: 100%;
-  margin-bottom: 20px;
-  position: relative;
-  top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1px;
+}
+
+.home-brand h1 {
+  color: #007bff;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 15px;
 }
 
 .home-search-section {
-  margin: 60px 0 20px;
+  margin-top: 20px;
+  margin-bottom: 0px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -1045,144 +1054,346 @@ html, body {
 }
 
 .home-search-input {
-  width: 70%;
-  padding: 10px;
-  border-radius: 5px;
+  width: 85%; /* 검색창 가로 길이 확대 */
+  padding: 10px 18px;
+  border-radius: 25px;
   border: 1px solid #ddd;
-  font-size: 16px;
-  margin-right: 10px;
-}
-
-.home-search-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
+  font-size: 14px;
+  outline: none;
 }
 
 .home-previous-conditions {
-  margin: 20px 0;
+  margin-top: 10px;
+  margin-bottom: 2px;
   width: 100%;
 }
 
-.home-news-card-header {
-  width: 100%;
-  font-size: 19px;
+.home-previous-conditions-title {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .home-conditions-list {
+  cursor: pointer;
   display: flex;
-  overflow-x: auto;
-  gap: 15px;
-  padding-bottom: 10px;
+  gap: 8px;
+  padding-bottom: 8px;
+  flex-wrap: wrap;
+  overflow: hidden; /* 스크롤바 숨기기 */
+  max-height: 100px; /* 4개 항목 표시하기 위한 최대 높이 설정 */
 }
 
-.home-condition-item {
+.home-condition-disease{
   flex: 0 0 auto;
-}
-
-.home-divider {
-  border: none;
-  border-top: 1px solid #ccc;
-  margin: 20px 0;
-  width: 100%;
+  padding: 6px 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  font-size: 13px;
 }
 
 .home-points {
-  margin-top: 20px;
+  margin-top: 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+
+.home-news-card-header-title {
+  width: 100%;
+  font-size: 18px;
+  /* margin-bottom: 10px; */
+}
+
 .home-news-card {
   background: #fff;
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.19);
+  margin-bottom: 12px;
   cursor: pointer;
   width: 100%;
 }
 
-.home-news-card h4 {
+.home-news-card-title{
   color: #007bff;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
+
+.home-news-card p {
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 11px;
+}
+
 
 .home-news-card button {
   background: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: auto;
-  display: block;
+  font-size: 10px;
+  text-align: center;
 }
 
 .home-news-card button:hover {
   background: #0056b3;
 }
 
+.home-word-cloud {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.home-histogram-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  /* margin-top: 20px; */
+  border: 1px solid #ddd; /* 연한 테두리 추가 */
+  border-radius: 10px; /* 테두리 둥글게 하기 */
+  padding: 30px;
+  background-color: #ffffff; /* 배경색 추가 */
+}
+
+.home-histogram-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 40px; /* 막대 폭 */
+}
+
+.home-histogram-bar span {
+  position: absolute;
+  bottom: -20px; /* 레이블이 바닥에 고정되도록 위치 조정 */
+  white-space: nowrap;
+  font-size: 12px; /* 레이블 폰트 크기 */
+}
+
+.home-bar {
+  width: 100%;
+  height: 0; /* 초기 높이 값 0으로 설정 */
+  animation: growBar 1s ease-out forwards;
+  background-color: #007bff; /* 기본 색상 (연한 파란색) */
+}
+
+@keyframes growBar {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--bar-height);
+  }
+}
+
+.home-disease-name {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50px; 
+  cursor: pointer; 
+  position: relative;
+}
+
+.home-disease-name:hover::after {
+  content: attr(title); 
+  position: absolute;
+  padding: 5px;
+  border-radius: 10px;
+  top: 20px; 
+  left: 0;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.home-nodata {
+  border: 1px solid #ddd; 
+  border-radius: 15px;
+  text-align: center;
+  align-items: center;
+  padding: 10px 50px;
+  padding-top: 25px;
+}
+
+.home-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.home-modal-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.home-modal-close:hover {
+  color: black;
+}
+
+.home-modal-content-title {
+  font-size: 12px;
+  color: #5e5e5e;
+}
+
+.home-modal-department-title {
+  font-size: 14px;
+  color: #007bff;
+}
+
+.home-department-button {
+  background-color: #e6e6e64a;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 20px;
+  padding: 5px 8px;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+.home-news-card-wrap {
+  padding: 4px 20px;
+  height: 310px;
+  overflow-y: auto;
+  border: none;
+}
+
+/* calendar.css */
+/* Calendar.css */
+
 .cal-calendar {
   max-width: 430px;
-  margin-top: 30px;
+  margin: 0 auto;
+  margin-bottom: 10px;
   padding: 20px;
   box-sizing: border-box;
 }
 
-.cal-header {
-  margin-bottom: 30px;
-}
-
-.cal-header, .cal-days, .cal-row {
+.cal-days, .cal-row {
   display: flex;
   justify-content: space-between;
+}
+
+.cal-header {
+  font-size: 14px;
+  padding: 15px 20px;
+  border-radius: 30px;
+  background-color: #bcbcbc1d;
+  width: 90%;
+  text-align: center;
+  margin: 10px auto;
 }
 
 .cal-col {
   flex: 1;
   text-align: center;
+  font-size: 15px;
+  border: none;
 }
 
+.cal-col-yyyymm {
+  padding-left: 10px;
+}
+
+.cal-start-end-wrap{
+  padding-top: 3px;
+  text-align: end;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.cal-col-start {
+  border: none;
+}
+
+.cal-col-end {
+  border: none;
+  padding-right: 10px;
+}
+
+.cal-body-wrap{
+  padding: 20px;
+  /* border-radius: 10px; */
+  /* border-bottom: 1px solid #ccc; */
+  /* box-shadow: 0 6px 15px 0 rgba(0,0,0,0.2); */
+  /* height: 95vh; */
+}
 .cal-cell {
-  padding: 10px;
+  padding: 1px 0;
   border: 1px solid #ddd;
   cursor: pointer;
-  height: 120px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-top: 1px solid #abababa7;    
+  border-bottom: none; 
+  border-left: none;              
+  border-right: none; 
 }
 
 .cal-cell:hover {
   background-color: #d3d3d3;
 }
 
-.cal-cell.selected {
+.cal-cell.cal-selected {
   background-color: #f0f8ff;
 }
 
-.cal-cell.disabled {
-  color: #d3d3d3;
-  cursor: not-allowed;
-  background-color: #f5f5f5;
-}
-
 .cal-number {
-  font-size: 15px;
+  font-size: 11px;
   font-weight: bold;
 }
 
+.cal-days .cal-col {
+  color: black; /* 기본 색상은 검정색으로 설정 */
+  margin-bottom: 5px;
+}
+
+/* 주말 컬럼 (토요일과 일요일) 스타일링 */
+.cal-days .cal-col:first-child, /* 일요일 */
+.cal-days .cal-col:last-child, /* 토요일 */
+.cal-number.cal-holiday {
+  color: red; /* 공휴일과 주말의 날짜 색상 빨간색으로 설정 */
+}
+
 .cal-memo {
-  margin: 2px 0;
-  padding: 2px 5px;
+  margin: 2px auto;
+  padding: 2px 2px;
   border-radius: 4px;
   font-size: 9px;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  width: 80%;
   cursor: pointer;
 }
 
@@ -1198,6 +1409,7 @@ html, body {
   background-color: rgba(255, 0, 0, 0.5);
 }
 
+/* Modal styles */
 .cal-modal {
   position: fixed;
   z-index: 1000;
@@ -1215,10 +1427,8 @@ html, body {
   background-color: #fefefe;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%;
-  max-width: 500px;
+  width: 380px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cal-modal-close {
@@ -1262,8 +1472,9 @@ html, body {
   cursor: pointer;
 }
 
-.cal-datepicker{
+.cal-datepicker {
   width: 110px;
+  margin-left: 5px;
 }
 
 .cal-modal-content .button-group {
@@ -1282,14 +1493,424 @@ html, body {
   flex: 1;
 }
 
-.cal-range-inputs label:first-child {
+.cal-radio-group {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 10px;
+}
+
+.cal-radio-group label {
+  margin-right: 15px; /* 각 라벨 사이의 간격 추가 */
+}
+
+
+/* chat description.css */
+.ch-popup-container {
+  display: flex;
+  align-items: flex-end;
+  width: 430px;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5); /* 흐릿한 배경 추가 */
+  justify-content: center;
+  align-items: flex-end; /* 아래로 정렬 */
+  z-index: 1;
+  padding-bottom: 20px;
+}
+
+.ch-popup {
+  width: 95%;
+  height: 95%;
+  max-height: 750px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  position: relative;
+  transform: translateY(100%); /* 초기 위치를 화면 아래로 설정 */
+  animation: ch-slide-up 0.5s ease-out forwards; /* 슬라이드 업 애니메이션 추가 */
+  visibility: hidden; /* 초기에는 숨김 */
+}
+
+@keyframes ch-slide-up {
+from {
+    transform: translateY(100%); /* 시작 시 화면 아래에서 */
+    opacity: 0;
+}
+to {
+    transform: translateY(0); /* 화면 중앙으로 이동 */
+    opacity: 1;
+    visibility: visible; /* 애니메이션이 끝나면 보이도록 설정 */
+}
+}
+
+.ch-popup-content {
+position: relative;
+width: 100%;
+height: 100%;
+}
+
+/* ID 1 */
+.ch-popup-content-id-1 .ch-bold-large-text-1 {
+position: absolute;
+top: 11.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 1.5rem;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-1 .ch-bold-large-text-2 {
+position: absolute;
+top: 18%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 1.5rem;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-1 .ch-small-gray-text-1 {
+position: absolute;
+top: 27.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.87rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-1 .ch-small-gray-text-2 {
+position: absolute;
+top: 31%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.87rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-1 .ch-popup-image {
+position: absolute;
+top: 68%; /* 이미지의 위치 조정 */
+left: 53%;
+transform: translate(-50%, -50%);
+max-width: 88%;
+height: auto;
+}
+
+
+/* ID 2 */
+.ch-popup-content-id-2 .ch-bold-large-text-1 {
+position: absolute; /* 위치 설정 */
+top: 11.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 1.5rem;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-2 .ch-small-gray-text-1 {
+position: absolute;
+top: 23%; /* ch-bold-large-text-1 아래에 위치 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 1rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-2 .ch-small-gray-text-2 {
+position: absolute;
+top: 30%; /* '질병 상담' 문장이 위치하는 지점 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.8rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-2 .ch-small-gray-text-3 {
+position: absolute;
+top: 33%; /* '기타 문의' 문장이 위치하는 지점 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.8rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-2 .ch-popup-image {
+position: absolute;
+top: 68%; /* 이미지의 위치 조정 */
+left: 48%;
+transform: translate(-50%, -50%);
+max-width: 90%;
+height: auto;
+}
+
+
+
+/* ID 3 */
+.ch-popup-content-id-3 .ch-bold-large-text {
+position: absolute;
+top: 11.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 1.5rem;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-3 .ch-small-gray-text-1.ch-with-margin {
+position: absolute;
+top: 23%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.875rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-3 .ch-small-gray-text-2 {
+position: absolute;
+top: 27.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.875rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-3 .ch-popup-image {
+position: absolute;
+top: 67.5%; /* 이미지의 위치 조정 */
+left: 51%;
+transform: translate(-50%, -50%);
+max-width: 90%;
+height: auto;
+}
+
+
+/* ID 4 */
+.ch-popup-content-id-4 .ch-bold-large-text {
+position: absolute;
+top: 11.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 1.5rem;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-4 .ch-small-gray-text-1.ch-with-margin {
+position: absolute;
+top: 23%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.875rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-4 .ch-small-gray-text-2 {
+position: absolute;
+top: 27.5%; /* 원하는 위치로 조정 */
+left: 50%;
+transform: translateX(-50%);
+font-size: 0.875rem;
+color: #808080;
+white-space: nowrap;
+}
+
+.ch-popup-content-id-4 .ch-popup-image {
+position: absolute;
+top: 62%; /* 이미지의 위치 조정 */
+left: 50%;
+transform: translate(-50%, -50%);
+max-width: 90%;
+height: auto;
+}
+
+.ch-popup-checkbox-wrap{
+  display: flex;
+  align-items: center; 
+  color: #808080;
+  position: absolute;
+  top: 8px;
+  font-size: 13px;
+  vertical-align:middle;
+}
+
+.ch-popup-checkbox {
   margin-right: 10px;
 }
 
-.cal-range-inputs input[type="date"] {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+.ch-popup-checkbox-label {
+  padding-top: 5px;
+}
+
+/* 공통 요소들 */
+.ch-small-gray-text.ch-clickable {
+cursor: pointer; /* 커서를 포인터로 변경 */
+color: gray;
+text-decoration: underline;
+transition: color 0.3s ease; /* 부드러운 전환을 위해 추가 */
+position: absolute; /* 위치 조정 가능 */
+top: 230px; /* 상단에서 50px 떨어진 위치 */
+left: 225px; /* 왼쪽에서 20px 떨어진 위치 */
+z-index: 100;
+}
+
+.ch-small-gray-text.ch-clickable:hover {
+color: blue; /* 커서 올렸을 때 글자색 변경 */
+text-decoration: underline; /* 커서 올렸을 때 밑줄 */
+}
+
+.ch-arrow-btn {
+background: none;
+border: none;
+cursor: pointer;
+padding: 10px;
+font-size: 1.2rem;
+user-select: none;
+font-weight: lighter;
+color: #cdcdcd;
+position: absolute;
+}
+
+.ch-arrow-btn:focus {
+outline: none;
+}
+
+.ch-arrow-btn.ch-left {
+left: 30px;
+bottom: 300px;
+z-index: 100;
+}
+
+.ch-arrow-btn.ch-right {
+right: 30px;
+bottom: 300px;
+}
+
+.ch-skip-btn {
+position: absolute;
+top: 30px;
+right: 20px;
+background: none;
+border: none;
+cursor: pointer;
+font-size: 0.8rem;
+color: #9e9f9f;
+user-select: none;
+z-index: 10;
+visibility: hidden;
+animation: ch-fade-in 0.5s ease-out forwards; 
+}
+
+@keyframes ch-fade-in {
+to {
+    visibility: visible;
+}
+}
+
+.ch-page-indicators {
+position: absolute;
+top: 38px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 6px;
+}
+
+.ch-indicator {
+width: 6px;
+height: 6px;
+border-radius: 50%;
+background-color: #ccc;
+transition: background-color 0.3s ease;
+}
+
+.ch-indicator.ch-active {
+background-color: #007bff;
+}
+
+.ch-square-btn {
+background-color: #007bff;
+color: white;
+border: none;
+width: 100%;
+height: 50px;
+font-size: 1.2rem;
+cursor: pointer;
+margin-top: 435px; /* 버튼과 다른 컨텐츠 간격 조절 */
+position: fixed; /* 화면 하단에 고정 */
+bottom: 35px; /* 화면 하단에서의 간격 조절 */
+left: 50%; /* 버튼을 중앙에 위치시키기 위해 */
+transform: translateX(-50%); /* 버튼을 정확히 중앙으로 이동 */
+white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 */
+}
+
+.ch-square-btn:focus {
+outline: none;
+}
+
+/* 질병 목록 보기 팝업 */
+.ch-disease-list-popup {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 10;
+}
+
+.ch-disease-list-content {
+background-color: white;
+padding: 20px;
+border-radius: 20px;
+max-width: 380px;
+}
+
+.ch-disease-list-content h2 {
+margin-top: 0;
+}
+
+.ch-disease-list-content ul {
+list-style-type: none;
+padding: 0;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+}
+
+.ch-disease-list-content li {
+margin-bottom: 10px;
+}
+
+.ch-disease-list-title-wrap {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 10px; 
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.ch-disease-list-title {
+  font-size: 1.5rem;
+  margin: 0; /* 기본 여백 제거 */
+}
+
+.ch-close-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }

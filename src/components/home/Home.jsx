@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css';
 import axios from 'axios';
 
 const Home = () => {
@@ -93,20 +92,27 @@ const Home = () => {
         }
         
         const sortedData = diseaseData
-        .sort((a, b) => b.frequency - a.frequency)
-        .slice(0, 7);
+            .sort((a, b) => b.frequency - a.frequency)
+            .slice(0, 7);
+    
+        const maxFrequency = sortedData[0].frequency;
     
         return (
             <div className="home-histogram-container">
                 {sortedData.map((item, index) => {
                     const displayName = item.name.length > 3 ? item.name.slice(0, 3) + '...' : item.name;
-
+                    const intensity = (item.frequency / maxFrequency) * 0.7 + 0.3; 
+                    const barColor = `rgba(0, 123, 255, ${intensity})`;
+    
                     return (
                         <div key={index} className="home-histogram-bar">
                             <span className="home-disease-name" title={item.name}>{displayName}</span>
                             <div
                                 className="home-bar"
-                                style={{ '--bar-height': `${item.frequency * 23}px` }} // 동적 높이 설정
+                                style={{ 
+                                    '--bar-height': `${item.frequency * 20}px`,
+                                    backgroundColor: barColor
+                                }}
                             ></div>
                         </div>
                     );
