@@ -21,9 +21,9 @@ const Saved = () => {
             
     }, [userId]);
     console.log(favorites);
-    const onClickMoveLocal = (hospital_name) => {
-        navigate(`/local?query=${hospital_name}`);
-    }
+    const onClickMoveLocal = (place) => {
+        navigate(`/local?query=${place.hospital_name}&lat=${place.latitude}&lng=${place.longitude}`);
+    };
 
     const onClickDelete = async(favoriteId) => {
         console.log(favoriteId);
@@ -49,7 +49,7 @@ const Saved = () => {
                         <span className="saved-tel">{place.hospital_phone}</span>
                     </div>
                     <div className='saved-button'>
-                        <button onClick={()=>onClickMoveLocal(place.hospital_name)} className='saved-button-local'>지도</button>
+                        <button onClick={()=>onClickMoveLocal(place)} className='saved-button-local'>지도</button>
                         <button onClick={()=>onClickDelete(place.favorite_id)} className='saved-button-delete'>삭제</button>
                     </div>
                 </li>

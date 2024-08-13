@@ -74,6 +74,9 @@ const LocalList = () => {
                     hospital_name: place.place_name, 
                     hospital_address: place.road_address_name || place.address_name,
                     hospital_phone: place.phone,
+                    latitude: place.y,
+                    longitude: place.x
+                    
                 });
                 setFavorites([...favorites, place.place_name]); 
             }
@@ -118,7 +121,7 @@ const LocalList = () => {
                                 <span className="locallist-distance">거리: {place.distance ? place.distance.toFixed(2) : '알 수 없음'} km</span>
                             </div>
                             <span
-                                className={`locallist-favorite ${favorites.includes(place.place_name) ? 'active' : ''}`} // ensure this matches the data structure
+                                className={`locallist-favorite ${favorites.includes(place.place_name) ? 'active' : ''}`} 
                                 onClick={() => toggleFavorite(place)}
                             >
                                 ★

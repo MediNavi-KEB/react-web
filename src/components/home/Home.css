@@ -6,7 +6,7 @@ body {
 }
 
 .home-dashboard {
-  padding: 20px;
+  padding: 20px 0;
   background-color: #ffffff;
   min-height: 100vh;
   max-width: 430px;
@@ -16,6 +16,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.home-other-wrap {
+  width: 380px;
 }
 
 .home-brand {
@@ -77,12 +81,12 @@ body {
   max-height: 100px; /* 4개 항목 표시하기 위한 최대 높이 설정 */
 }
 
-.home-condition-item {
+.home-condition-disease{
   flex: 0 0 auto;
   padding: 6px 10px;
   background-color: #f0f0f0;
   border-radius: 5px;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .home-points {
@@ -93,13 +97,11 @@ body {
   align-items: center;
 }
 
-.home-news-card-header {
-  width: 100%;
-}
 
 .home-news-card-header-title {
+  width: 100%;
   font-size: 18px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .home-news-card {
@@ -273,4 +275,11 @@ body {
   padding: 5px 8px;
   margin: 0 3px;
   cursor: pointer;
+}
+
+.home-news-card-wrap {
+  padding: 4px 20px;
+  height: 310px;
+  overflow-y: auto;
+  border: none;
 }

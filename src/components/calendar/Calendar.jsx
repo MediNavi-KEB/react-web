@@ -70,13 +70,17 @@ const Calendar = () => {
     const formData = new FormData(e.target);
     const category = formData.get('category');
     const memo = formData.get('memo');
-    const kstDateTime = new Date(memoRange.start.getTime() + (9 * 60 * 60 * 1000)).toISOString();
+
+    // 시작 날짜와 종료 날짜를 각각 ISO 8601 형식으로 변환
+    const startDate = new Date(memoRange.start.getTime() + (9 * 60 * 60 * 1000)).toISOString();
+    const endDate = new Date(memoRange.end.getTime() + (9 * 60 * 60 * 1000)).toISOString();
 
     const memoData = {
-      user_id: userId,
-      date_time: kstDateTime,
-      memo_category: category,
-      memo_content: memo,
+        user_id: userId,
+        start_date: startDate,
+        end_date: endDate,
+        memo_category: category,
+        memo_content: memo,
     };
 
     try {
@@ -204,7 +208,7 @@ const Calendar = () => {
           <div className="cal-modal">
             <div className="cal-modal-content">
               <span className="cal-modal-close" onClick={closeModal} style={{ cursor: 'pointer' }}>&times;</span>
-              <h2>{selectedMemo ? '메모 수정' : '메모 추가'}</h2>
+              <h4>{selectedMemo ? '메모 수정' : '메모 추가'}</h4>
               <form onSubmit={e => handleMemoAction(e, selectedMemo ? 'edit' : 'submit')}>
                 <div className="cal-radio-group">
                   {['통증', '약', '병원'].map(category => (

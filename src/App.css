@@ -559,7 +559,7 @@ html, body {
 }
 
 .local-search-form {
-  width: 100%;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -596,7 +596,7 @@ html, body {
 }
 
 .local-custom-modal .modal-dialog {
-  max-width: 40%; 
+  width: 380px; 
   max-height: 80vh; 
 }
 
