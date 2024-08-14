@@ -202,7 +202,7 @@ html, body {
   height: 25px;
   background-image: url('https://cdn-icons-png.flaticon.com/128/6134/6134346.png');
   background-size: cover;
-  margin-right: 10px;
+  margin-right: 3px;
 }
 
 .chat-header-name {
@@ -610,6 +610,16 @@ html, body {
   flex-grow: 1;
 }
 
+.local-place-details p {
+  margin-bottom: 3px;
+}
+
+.local-place-details-category {
+  font-size: 14px;
+  color: #5e5e5e;
+  margin-top: 15px;
+}
+
 /* LocalList.css */
 .locallist-map_wrap {
   display: flex;
@@ -754,12 +764,51 @@ html, body {
   padding: 10px;
 }
 
+.saved-header {
+  margin-top: 15px;
+  display: flex;          
+  align-items: center;     
+  justify-content: center; 
+  width: 100%;             
+  padding: 10px 0;         
+  position: relative;      
+}
+
+.saved-title {
+  font-size: 24px;          
+  font-weight: bold;       
+  position: absolute;      
+  left: 50%;               
+  transform: translateX(-50%); 
+}
+
+.saved-filter {
+  margin-left: auto;       
+  display: flex;           
+  align-items: center;     
+  background-color: #dddddd; 
+  padding: 5px 10px;      
+  border-radius: 20px;     
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.saved-filter-label {
+  margin-left: 0px;
+}
+
+.saved-select-option {
+
+  border: none;
+  background-color: #dddddd;
+}
+
 .saved-wrap {
   height: 80vh;
 }
 
 .saved-divider {
-  margin: 30px auto;
+  margin: 20px auto;
   width: 90%;
   color: #4d4d4d;
 }
@@ -793,6 +842,11 @@ html, body {
 .saved-tel {
   color: #2c88ff;
   font-weight: bold;
+}
+
+.saved-category {
+  font-size: 14px;
+  color: #4d4d4d;
 }
 
 .saved-button {
@@ -1068,9 +1122,21 @@ html, body {
   width: 100%;
 }
 
+.home-previous-conditions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px; /* 아래 간격 조정 */
+}
+
 .home-previous-conditions-title {
   font-size: 18px;
-  margin-bottom: 10px;
+}
+
+.home-memo-icon {
+  font-size: 18px; 
+  margin-right: auto; 
+  cursor: pointer; /* 아이콘에 커서 포인터 추가 */
 }
 
 .home-conditions-list {
@@ -1157,11 +1223,11 @@ html, body {
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
-  /* margin-top: 20px; */
   border: 1px solid #ddd; /* 연한 테두리 추가 */
   border-radius: 10px; /* 테두리 둥글게 하기 */
   padding: 30px;
   background-color: #ffffff; /* 배경색 추가 */
+  height: 180px;
 }
 
 .home-histogram-bar {
@@ -1170,6 +1236,14 @@ html, body {
   align-items: center;
   position: relative;
   width: 40px; /* 막대 폭 */
+}
+
+.home-frequency-label {
+  position: absolute;
+  top: -15px; /* 막대 위에 위치하도록 설정 */
+  font-size: 9px; /* 폰트 크기 */
+  color: #4c4c4c; /* 텍스트 색상 */
+  font-weight: bold; /* 텍스트 굵기 */
 }
 
 .home-histogram-bar span {
@@ -1181,9 +1255,13 @@ html, body {
 
 .home-bar {
   width: 100%;
-  height: 0; /* 초기 높이 값 0으로 설정 */
+  height: 0; 
   animation: growBar 1s ease-out forwards;
-  background-color: #007bff; /* 기본 색상 (연한 파란색) */
+  background-color: #007bff; 
+  border-top-left-radius: 10px; 
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 3px; 
+  border-bottom-right-radius: 3px; 
 }
 
 @keyframes growBar {
@@ -1227,7 +1305,7 @@ html, body {
 
 .home-modal {
   position: fixed;
-  z-index: 1000;
+  z-index: 2000;
   left: 0;
   top: 0;
   width: 100%;
@@ -1286,7 +1364,50 @@ html, body {
   border: none;
 }
 
-/* calendar.css */
+.home-memo {
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-memo-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.home-memo-content p{
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.highlighted-memo {
+  font-size: 20px; /* 원하는 크기로 설정 */
+  font-weight: bold; /* 굵게 설정 (선택 사항) */
+  color: #000; /* 원하는 색상으로 설정 (선택 사항) */
+}
+
+.home-memo-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.home-memo-close:hover {
+  color: black;
+}
 /* Calendar.css */
 
 .cal-calendar {
@@ -1399,14 +1520,17 @@ html, body {
 
 .cal-memo-hospital {
   background-color: rgba(0, 89, 255, 0.632);
+  color: black;
 }
 
 .cal-memo-medicine {
   background-color: rgba(255, 213, 0, 0.879);
+  color: black;
 }
 
 .cal-memo-pain {
   background-color: rgba(255, 0, 0, 0.5);
+  color: black;
 }
 
 /* Modal styles */
@@ -1501,6 +1625,11 @@ html, body {
 
 .cal-radio-group label {
   margin-right: 15px; /* 각 라벨 사이의 간격 추가 */
+}
+
+.cal-outside-month {
+  background-color: #f0f0f0; /* 회색 배경색 */
+  color: #a9a9a9; /* 회색 텍스트 색상 */
 }
 
 

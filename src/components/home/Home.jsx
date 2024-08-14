@@ -5,10 +5,12 @@ import axios from 'axios';
 const Home = () => {
     const [query, setQuery] = useState('');
     const [newsData, setNewsData] = useState([]);
+    const [memo, setMemo] = useState([]);
     const [diseaseData, setDiseaseData] = useState([]);
     const [recentDisease, setRecentDisease] = useState([]);
     const [icons, setIcons] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMemoOpen, setIsMemoOpen] = useState(false);
     const [selectedDiseaseDescription, setSelectedDiseaseDescription] = useState('');
     const [selectedDiseaseName, setSelectedDiseaseName] = useState('');
     const [selectedDiseaseTime, setSelectedDiseaseTime] = useState('');
@@ -19,6 +21,10 @@ const Home = () => {
     const readRecentDisease = async () => {
         const response = await axios.get(`/disease/get/data-recent/${userId}`);
         setRecentDisease(response.data);
+
+        const diseaseDataResponse = await axios.get(`/disease/disease-frequencies/${userId}`);
+        const diseaseData = diseaseDataResponse.data;
+        setDiseaseData(diseaseData);
     };
 
     const fetchIcons = async () => {
@@ -32,10 +38,7 @@ const Home = () => {
 
     useEffect(() => {
         const storedNewsData = JSON.parse(localStorage.getItem('newsData'));
-        const storedDiseaseData = JSON.parse(localStorage.getItem('diseaseData'));
         readRecentDisease();
-
-        setDiseaseData(storedDiseaseData);
         setNewsData(storedNewsData);
     }, []);
 
@@ -69,7 +72,7 @@ const Home = () => {
         setSelectedDiseaseTime(dateTime.substr(0,10));
 
         const response = await axios.get(`/disease/department_by_disease/${diseaseName}`);
-        const departments = response.data.map(dept => dept.department_name); // department_name만 추출
+        const departments = response.data.map(dept => dept.department_name);
         setSelectedDepartments(departments); 
         setIsModalOpen(true);
     };
@@ -81,6 +84,20 @@ const Home = () => {
         setSelectedDiseaseTime('');
     };
 
+
+    const handleMemoClick = async() => {
+        const memo = await axios.get(`/calendar/monthly-frequency/${userId}`);
+        setMemo(memo.data);
+        console.log(memo.data);
+        setIsMemoOpen(true);
+    }
+
+    const closeMemo = () => {
+        setIsMemoOpen(false);
+        setMemo('');
+    };
+
+    
     const renderHistogram = () => {
         if (!diseaseData || diseaseData.length === 0) {
             return (
@@ -95,23 +112,25 @@ const Home = () => {
             .sort((a, b) => b.frequency - a.frequency)
             .slice(0, 7);
     
-        const maxFrequency = sortedData[0].frequency;
+            const maxFrequency = sortedData[0].frequency;
+            const maxHeight = 120;
     
         return (
             <div className="home-histogram-container">
                 {sortedData.map((item, index) => {
                     const displayName = item.name.length > 3 ? item.name.slice(0, 3) + '...' : item.name;
                     const intensity = (item.frequency / maxFrequency) * 0.7 + 0.3; 
-                    const barColor = `rgba(0, 123, 255, ${intensity})`;
+                    const barHeight = (item.frequency / maxFrequency) * maxHeight;
     
                     return (
                         <div key={index} className="home-histogram-bar">
+                            <span className="home-frequency-label">{item.frequency}</span>
                             <span className="home-disease-name" title={item.name}>{displayName}</span>
                             <div
                                 className="home-bar"
                                 style={{ 
-                                    '--bar-height': `${item.frequency * 20}px`,
-                                    backgroundColor: barColor
+                                     '--bar-height': `${barHeight}px`,
+                                    backgroundColor: `rgba(0, 123, 255, ${intensity})`
                                 }}
                             ></div>
                         </div>
@@ -139,7 +158,10 @@ const Home = () => {
                     </form>
                 </div>
                 <div className="home-previous-conditions">
+                <div className="home-previous-conditions-header">
                     <div className="home-previous-conditions-title">최근 상담 내역</div>
+                    <div className="home-memo-icon" onClick={handleMemoClick}>📝</div>
+                </div>
                     <div className="home-conditions-list">
                         {recentDisease.length > 0 ? (
                             recentDisease.map((data, index) => (
@@ -199,6 +221,18 @@ const Home = () => {
                         ) : (
                             <p>진료과 정보를 가져오는 중입니다...</p>
                         )}
+                    </div>
+                </div>
+            )}
+
+            {isMemoOpen && (
+                <div className="home-memo">
+                    <div className="home-memo-content">
+                        <span className="home-memo-close" onClick={closeMemo}>&times;</span>
+                        <p><span className="highlighted-memo">이번 달 의료 기록은</span></p>
+                        <p>병원을 <span className="highlighted-memo">{memo.병원}</span>번 방문하셨고</p>
+                        <p>약은 <span className="highlighted-memo">{memo.약}</span>번 복용하셨고</p>
+                        <p><span className="highlighted-memo">{memo.통증}</span>번의 통증이 있으셨습니다.</p>
                     </div>
                 </div>
             )}

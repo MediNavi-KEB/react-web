@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { BsList } from "react-icons/bs";
 import { AiOutlineReload } from "react-icons/ai";
 import axios from 'axios';
+import { Category } from '@mui/icons-material';
 
 const Locals = () => {
     const navigate = useNavigate();
@@ -261,7 +262,8 @@ const Locals = () => {
                     hospital_address: place.road_address_name || place.address_name,
                     hospital_phone: place.phone,
                     latitude: place.y,
-                    longitude: place.x
+                    longitude: place.x,
+                    category: place.category_name ? place.category_name.split('>').pop().trim() : 'N/A'
                 });
                 setFavorites([...favorites, place.place_name]);
             }
@@ -328,8 +330,8 @@ const Locals = () => {
                             <div className="local-place-details">
                                 <h5>{selectedPlace.place_name}</h5>
                                 <p>{selectedPlace.road_address_name || selectedPlace.address_name}</p>
-                                <p>카테고리 : {selectedPlace.category_name ? selectedPlace.category_name.split('>').pop().trim() : 'N/A'}</p>
                                 <p>{selectedPlace.phone || '전화번호 없음'}</p>
+                                <div className='local-place-details-category'>카테고리 : {selectedPlace.category_name ? selectedPlace.category_name.split('>').pop().trim() : 'N/A'}</div>
                             </div>
                             <span
                                 className={`locallist-favorite ${favorites.includes(selectedPlace.place_name) ? 'active' : ''}`}

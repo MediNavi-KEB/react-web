@@ -75,7 +75,8 @@ const LocalList = () => {
                     hospital_address: place.road_address_name || place.address_name,
                     hospital_phone: place.phone,
                     latitude: place.y,
-                    longitude: place.x
+                    longitude: place.x,
+                    category: place.category_name ? place.category_name.split('>').pop().trim() : 'N/A'
                     
                 });
                 setFavorites([...favorites, place.place_name]); 
@@ -118,6 +119,7 @@ const LocalList = () => {
                                     <span>{place.address_name}</span>
                                 )}
                                 <span className="locallist-tel">{place.phone}</span>
+                                <div className='local-place-details-category'>카테고리 : {place.category_name ? place.category_name.split('>').pop().trim() : 'N/A'}</div>
                                 <span className="locallist-distance">거리: {place.distance ? place.distance.toFixed(2) : '알 수 없음'} km</span>
                             </div>
                             <span

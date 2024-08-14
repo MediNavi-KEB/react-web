@@ -66,6 +66,10 @@ const Join = () => {
         }
     };
 
+    const handleBack =  () => {
+        navi('/login');
+    }
+
     return (
         <div className="register-container">
             <h1 className='text-center mb-4'>회원가입</h1>
@@ -107,7 +111,8 @@ const Join = () => {
                 
             </InputGroup>
             <div className="text-center mt-4">
-                <Button size='lg'  onClick={handleJoin}>등록</Button>
+                <Button className='me-2' size='lg'  onClick={handleJoin}>등록</Button>
+                <Button size='lg' variant='secondary'  onClick={handleBack}>취소</Button>
             </div>
         </div>
     );

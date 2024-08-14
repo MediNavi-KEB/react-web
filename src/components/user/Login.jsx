@@ -43,12 +43,8 @@ const Login = () => {
                  const newsResponse = await axios.get(`/news/read/${user_id}`);
                  const newsData = newsResponse.data;
  
-                 const diseaseDataResponse = await axios.get(`/disease/disease-frequencies/${user_id}`);
-                 const diseaseData = diseaseDataResponse.data;
-   
                  localStorage.setItem('newsData', JSON.stringify(newsData));
-                 localStorage.setItem('diseaseData', JSON.stringify(diseaseData));
-
+            
                  setLoading(false);
                 navi('/home')
             }
