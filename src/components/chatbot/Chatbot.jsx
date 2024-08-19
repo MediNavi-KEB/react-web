@@ -72,13 +72,15 @@ const Chatbot = () => {
     }, [initialChatType, query, userId]);
 
     useEffect(() => {
+         // 메시지가 업데이트될 때마다 스크롤을 가장 아래로 이동
         if (chatBodyRef.current) {
             chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
         }
     }, [messages]);
 
+    // 사용자가 입력한 텍스트를 전송
     const handleSend = async () => {
-        if (inputText.trim() && !isSending) {
+        if (inputText.trim() && !isSending) { // 빈 입력이 아니고, 전송 중이 아닐 때만 실행
             setIsSending(true);
             const userMessage = { sender: 'user', text: inputText };
             setMessages(prevMessages => [...prevMessages, userMessage]);
@@ -133,6 +135,7 @@ const Chatbot = () => {
         }
     };
 
+    // 사용자가 옵션을 클릭했을 때 처리
     const handleOptionClick = async (option) => {
         setMessages(prevMessages => [...prevMessages, { sender: 'user', text: option }]);
 
@@ -147,7 +150,7 @@ const Chatbot = () => {
             if (chatType === '질병 상담') {
                 try {
                     setDiseaseName(option);
-                    const response = await fetch('http://127.0.0.1:8000/ai/hospital_recommendation', {
+                    const response = await fetch('http://127.0.0.1:8000/ai/disease-advice', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -188,7 +191,9 @@ const Chatbot = () => {
         }
     };
 
-    const handleOptionSelection = async(option) => {
+
+    // 사용자가 진료과를 선택했을 때 처리
+    const handleHospitalSelection = async(option) => {
         if (departments.some(department => department.department_name === option)) {
             const kstDateTime = new Date(new Date().getTime() + (9 * 60 * 60 * 1000)).toISOString();
             const user_disease_data = {
@@ -205,6 +210,7 @@ const Chatbot = () => {
         }
     };
 
+    // Enter 키를 눌렀을 때 메시지를 전송
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -212,12 +218,14 @@ const Chatbot = () => {
         }
     };
 
+    // 서비스 선택을 초기화
     const selectService = () => {
         setChatType('');
         setMessages([{ sender: 'bot', text: '안녕하세요, 상담 종류를 선택해주세요.', options: ['질병 상담', '기타 문의'] }]);
         setInputText('');
     };
 
+    // 설명을 건너뛰거나 시작
     const handleSkipOrStart = () => {
         setShowDescription(false);
     };
@@ -251,7 +259,7 @@ const Chatbot = () => {
                             {message.options && (
                                 <div className="chat-btn-options">
                                     {message.options.map((option, idx) => (
-                                        <button key={idx} onClick={() => handleOptionSelection(option)}>
+                                        <button key={idx} onClick={() => handleHospitalSelection(option)}>
                                             {option}
                                         </button>
                                     ))}

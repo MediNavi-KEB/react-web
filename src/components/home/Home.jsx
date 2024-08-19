@@ -18,6 +18,7 @@ const Home = () => {
     const navigate = useNavigate();
     const userId = localStorage.getItem('user_id');
 
+    // 최근 질병 데이터 및 빈도수 가져오기
     const readRecentDisease = async () => {
         const response = await axios.get(`/disease/get/data-recent/${userId}`);
         setRecentDisease(response.data);
@@ -27,6 +28,7 @@ const Home = () => {
         setDiseaseData(diseaseData);
     };
 
+    // 질병에 대한 아이콘 가져오기
     const fetchIcons = async () => {
         const newIcons = {};
         for (const disease of recentDisease) {
@@ -36,35 +38,43 @@ const Home = () => {
         setIcons(newIcons);
     };
 
+    // 처음 들어올 때 localStorage 데이터 가져오기
     useEffect(() => {
         const storedNewsData = JSON.parse(localStorage.getItem('newsData'));
         readRecentDisease();
         setNewsData(storedNewsData);
     }, []);
 
+    
+    // 최근 질병 데이터가 변경될 때마다 새로 가져오기
     useEffect(() => {
         if (recentDisease.length > 0) {
             fetchIcons();
         }
     }, [recentDisease]);
 
+    // 검색어 입력하기 위한 Change 함수
     const handleSearchChange = (event) => {
         setQuery(event.target.value);
     };
 
+    // 검색어 입력 시 chatbot page 이동
     const handleSearchSubmit = (event) => {
         event.preventDefault();
         navigate('/chatbot', { state: { query, chatType: '질병 상담' } });
     };
 
+    // 뉴스 link 이동
     const handleCardClick = (link) => {
         window.open(link, '_blank');
     };
 
+    // 뉴스 정보 요약
     const truncateSummary = (summary) => {
         return summary && summary.length > 50 ? summary.slice(0, 50) + '...' : summary;
     };
 
+    // 최근 질병 클릭 시 질병 정보 Modal창 열기 & 해당 정보 가져오기
     const handleDiseaseClick = async(diseaseName, dateTime) => {
         const disease = await axios.get(`/disease/get/description/${diseaseName}`);
         setSelectedDiseaseName(diseaseName);
@@ -77,6 +87,7 @@ const Home = () => {
         setIsModalOpen(true);
     };
 
+    // Modal 닫기
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedDiseaseName('');
@@ -84,7 +95,7 @@ const Home = () => {
         setSelectedDiseaseTime('');
     };
 
-
+    // 메모 아이콘 클릭 시 Memo Modal 창 열기 & 캘린더 데이터 가져오기
     const handleMemoClick = async() => {
         const memo = await axios.get(`/calendar/monthly-frequency/${userId}`);
         setMemo(memo.data);
@@ -92,12 +103,13 @@ const Home = () => {
         setIsMemoOpen(true);
     }
 
+    // Memo Modal 창 닫기
     const closeMemo = () => {
         setIsMemoOpen(false);
         setMemo('');
     };
 
-    
+    // 질병 빈도수 히스토그램으로 표현
     const renderHistogram = () => {
         if (!diseaseData || diseaseData.length === 0) {
             return (

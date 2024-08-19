@@ -12,6 +12,7 @@ const LocalList = () => {
     
     const userId = localStorage.getItem('user_id');
 
+    // 사용자 즐겨찾기 정보 가져오기
     useEffect(() => {
         const fetchFavorites = async () => {
             try {
@@ -42,6 +43,7 @@ const LocalList = () => {
         return d;
     };
 
+    // 현재 위치와 장소 목록이 변경될 때마다 거리 기준으로 재정렬
     useEffect(() => {
         if (currentPosition && places.length > 0) {
             const updatedPlaces = places.map((place) => {
@@ -54,6 +56,7 @@ const LocalList = () => {
         }
     }, [currentPosition, places]);
 
+    // 정렬 옵션 변경 시 목록 재정렬
     useEffect(() => {
         if (sortOption === 'locallist-distance') {
             setSortedPlaces((prevPlaces) => [...prevPlaces].sort((a, b) => a.distance - b.distance));
@@ -62,6 +65,7 @@ const LocalList = () => {
         }
     }, [sortOption]);
 
+    // 즐겨찾기 토글 (등록 or 삭제)
     const toggleFavorite = async (place) => {
         const isFavorite = favorites.includes(place.place_name);
         try {
